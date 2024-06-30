@@ -1,24 +1,30 @@
 import { z } from 'zod';
 
-const CategorySchema = z.enum([
-  'electronics',
-  'jewelery',
-  "men's clothing",
-  "women's clothing",
-]);
+const ImagesSchema = z.object({
+  portraitURL: z.string(),
+  squarishURL: z.string(),
+});
 
-const RatingSchema = z.object({
-  rate: z.number(),
-  count: z.number(),
+const PriceSchema = z.object({
+  currency: z.string(),
+  currentPrice: z.number(),
+  fullPrice: z.number(),
+});
+
+export const ColorwaySchema = z.object({
+  colorDescription: z.string(),
+  pid: z.string(),
+  images: ImagesSchema,
+  price: PriceSchema,
 });
 
 export const ProductSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   title: z.string(),
-  price: z.number(),
-  description: z.string(),
-  category: CategorySchema,
-  image: z.string(),
-  rating: RatingSchema,
+  subtitle: z.string(),
+  productType: z.string(),
+  colorDescription: z.string(),
+  images: ImagesSchema,
+  price: PriceSchema,
+  colorways: z.array(ColorwaySchema),
 });
-export type Product = z.infer<typeof ProductSchema>;

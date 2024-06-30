@@ -1,45 +1,44 @@
-import { CartIcon, HalfStarIcon, StarIcon, TagIcon } from '@components/icons';
+import { CartIcon, TagIcon } from '@components/icons';
+import { AspectRatio } from '@ui/aspect-ratio';
 import { Button } from '@ui/button';
 import { Card, CardContent, CardTitle } from '@ui/card';
+import { Skeleton } from '@ui/skeleton';
+import { Portrait } from './portrait';
 
-export function ProductCard(item: Product) {
-  const { category, image, price, title, rating } = item;
-  const { rate, count } = rating;
-  const fullStars = Math.floor(rate);
-  const hasHalfStar = rate % 1 !== 0;
+export function ProductCard(item: Product & { withColorways?: boolean }) {
+  const {
+    title,
+    price,
+    productType,
+    colorways,
+    withColorways,
+    subtitle,
+  } = item;
+  const { currentPrice, currency } = price;
+
   return (
     <Card className='w-full max-w-sm'>
-      <img
-        src={image}
-        alt={title}
-        width={600}
-        height={600}
-        className='rounded-t-lg object-cover w-full aspect-square'
-      />
-      <CardContent className='p-6 space-y-4'>
+      <Portrait item={item} />
+      <CardContent className='flex flex-col px-2 py-4 gap-2'>
         <div className='flex flex-col gap-3'>
-          <CardTitle className='min-h-10'>
-            {title}
-          </CardTitle>
-          <div className='flex items-start flex-col gap-2 text-sm text-muted-foreground'>
-            <div className='flex gap-1'>
-              {[...Array(fullStars)].map((_, index) => (
-                <StarIcon key={index} className='w-4 h-4 text-yellow-400' />
-              ))}
-              {hasHalfStar && (
-                <HalfStarIcon className='w-4 h-4 text-yellow-400' />
-              )}
-              <span>{rate}</span>
-              <span>({count} reviews)</span>
-            </div>
+          <CardTitle>{title}</CardTitle>
+          <span className='text-sm text-muted-foreground'>{subtitle}</span>
+          <div className='flex items-start justify-between gap-2 text-sm text-muted-foreground'>
             <div className='flex gap-1'>
               <TagIcon className='w-4 h-4' />
-              <span>{category}</span>
+              <span>{productType}</span>
             </div>
+            {withColorways && (
+              <span className='text-blue-500 underline text-sm'>
+                colors: {colorways.length}
+              </span>
+            )}
           </div>
         </div>
-        <div className='space-y-2'>
-          <div className='text-2xl font-bold'>${price}</div>
+        <div>
+          <div className='text-2xl font-bold'>
+            {currency} ${currentPrice}
+          </div>
         </div>
         <Button size='lg' className='w-full'>
           <CartIcon className='size-4 mr-3' />
@@ -49,3 +48,28 @@ export function ProductCard(item: Product) {
     </Card>
   );
 }
+
+export const ProductCardSkeleton = () => (
+  <Card className='w-full max-w-sm'>
+    <AspectRatio ratio={1 / 1}>
+      <Skeleton className='w-full h-full rounded-lg bg-gray-400' />
+    </AspectRatio>
+    <CardContent className='flex flex-col px-2 py-4 gap-2'>
+      <div className='flex flex-col gap-3'>
+        <Skeleton className='h-4 w-3/4 bg-gray-400' />
+        <Skeleton className='h-4 w-1/2 bg-gray-400' />
+        <div className='flex items-start justify-between gap-2 text-sm text-muted-foreground'>
+          <div className='flex gap-1 h-8'>
+            <Skeleton className='w-4 h-4 bg-gray-400' />
+            <Skeleton className='h-4 w-32 bg-gray-400' />
+          </div>
+          <Skeleton className='h-4 w-1/4 bg-gray-400' />
+        </div>
+      </div>
+      <div className='space-y-2'>
+        <Skeleton className='h-6 w-1/2 bg-gray-400' />
+      </div>
+      <Skeleton className='h-10 w-full bg-gray-400' />
+    </CardContent>
+  </Card>
+);

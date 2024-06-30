@@ -12,7 +12,9 @@
 
 import { Route as rootRoute } from './app/pages/@__root'
 import { Route as IndexImport } from './app/pages/@index'
-import { Route as ProductsIndexImport } from './app/pages/@products/@index'
+import { Route as WomenIndexImport } from './app/pages/@women/@index'
+import { Route as MenIndexImport } from './app/pages/@men/@index'
+import { Route as CustomersIndexImport } from './app/pages/@customers/@index'
 
 // Create/Update Routes
 
@@ -21,8 +23,18 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ProductsIndexRoute = ProductsIndexImport.update({
-  path: '/products/',
+const WomenIndexRoute = WomenIndexImport.update({
+  path: '/women/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MenIndexRoute = MenIndexImport.update({
+  path: '/men/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CustomersIndexRoute = CustomersIndexImport.update({
+  path: '/customers/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -37,11 +49,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/products/': {
-      id: '/products/'
-      path: '/products'
-      fullPath: '/products'
-      preLoaderRoute: typeof ProductsIndexImport
+    '/customers/': {
+      id: '/customers/'
+      path: '/customers'
+      fullPath: '/customers'
+      preLoaderRoute: typeof CustomersIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/men/': {
+      id: '/men/'
+      path: '/men'
+      fullPath: '/men'
+      preLoaderRoute: typeof MenIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/women/': {
+      id: '/women/'
+      path: '/women'
+      fullPath: '/women'
+      preLoaderRoute: typeof WomenIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -51,7 +77,9 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
-  ProductsIndexRoute,
+  CustomersIndexRoute,
+  MenIndexRoute,
+  WomenIndexRoute,
 })
 
 /* prettier-ignore-end */
@@ -63,14 +91,22 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "@__root.tsx",
       "children": [
         "/",
-        "/products/"
+        "/customers/",
+        "/men/",
+        "/women/"
       ]
     },
     "/": {
       "filePath": "@index.tsx"
     },
-    "/products/": {
-      "filePath": "@products/@index.tsx"
+    "/customers/": {
+      "filePath": "@customers/@index.tsx"
+    },
+    "/men/": {
+      "filePath": "@men/@index.tsx"
+    },
+    "/women/": {
+      "filePath": "@women/@index.tsx"
     }
   }
 }
