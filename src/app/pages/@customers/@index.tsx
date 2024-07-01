@@ -1,5 +1,5 @@
-import { ProductCard, ProductCardSkeleton } from '@components/product';
-import { useProduct } from '@hooks/use-products';
+import { DataTable, columns } from '@components/table';
+import { useCustomer } from '@hooks/use-customer';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/customers/')({
@@ -7,17 +7,12 @@ export const Route = createFileRoute('/customers/')({
 });
 
 export default function Customers() {
-  const { products, isLoading, error } = useProduct();
+  const { customers, isLoading, error } = useCustomer();
   return (
-    <div className='grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6'>
-      {isLoading &&
-        Array.from({ length: 10 }).map((_, i) => (
-          <ProductCardSkeleton key={i} />
-        ))}
+    <>
+      {isLoading && <DataTable columns={columns} data={[]} />}
       {error && <div>Error: {error.message}</div>}
-      {products?.map((product) => (
-        <ProductCard key={product.id} {...product} />
-      ))}
-    </div>
+      <DataTable columns={columns} data={customers ?? []} />
+    </>
   );
 }

@@ -18,7 +18,7 @@ const AddressSchema = z.object({
   zipcode: z.string(),
 });
 
-export const UserSchema = z.object({
+export const CustomerSchema = z.object({
   address: AddressSchema,
   id: z.number(),
   email: z.string(),

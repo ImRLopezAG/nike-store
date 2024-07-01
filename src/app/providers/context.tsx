@@ -1,6 +1,6 @@
 import { createContext, useCallback, useState } from 'react';
 
-const getBase = (attribute: TemplateStringsArray) => `/product_feed/rollup_threads/v2?filter=marketplace(US)&filter=language(en)&filter=attributeIds(${attribute[0]})&anchor=48&consumerChannelId=d9a5bc42-4b9c-4976-858a-f159cf99c647&count=60&language=en&localizedRangeStr={lowestPrice} — {highestPrice}`;
+const getBase = (attribute: TemplateStringsArray) => `/product_feed/rollup_threads/v2?filter=marketplace(US)&filter=language(en)&filter=attributeIds(${attribute[0]})&anchor=30&consumerChannelId=d9a5bc42-4b9c-4976-858a-f159cf99c647&count=30&language=en&localizedRangeStr={lowestPrice} — {highestPrice}`;
 
 const endpoints = {
   NEW_RELEASES: getBase`53e430ba-a5de-4881-8015-68eb1cff459f`,

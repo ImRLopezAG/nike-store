@@ -25,7 +25,7 @@ export const Products: React.FC<Props> = ({product, title}) => {
           ))}
         {error && <div>Error: {error.message}</div>}
         {products?.map((product) => (
-          <ProductCard key={product.id} {...product} />
+          <ProductCard key={product.id} {...product} withColorways/>
         ))}
       </div>
     </Wrapper>
