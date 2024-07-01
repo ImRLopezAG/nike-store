@@ -1,4 +1,5 @@
 import { CartIcon, TagIcon } from '@components/icons';
+import { useCartStore } from '@hooks/use-cart';
 import { AspectRatio } from '@ui/aspect-ratio';
 import { Button } from '@ui/button';
 import { Card, CardContent, CardTitle } from '@ui/card';
@@ -6,15 +7,11 @@ import { Skeleton } from '@ui/skeleton';
 import { Portrait } from './portrait';
 
 export function ProductCard(item: Product & { withColorways?: boolean }) {
-  const {
-    title,
-    price,
-    productType,
-    colorways,
-    withColorways,
-    subtitle,
-  } = item;
+  const { title, price, productType, colorways, withColorways, subtitle } =
+    item;
   const { currentPrice, currency } = price;
+
+  const addToCart = useCartStore((state) => state.addToCart);
 
   return (
     <Card className='w-full max-w-sm'>
@@ -40,7 +37,13 @@ export function ProductCard(item: Product & { withColorways?: boolean }) {
             {currency} ${currentPrice}
           </div>
         </div>
-        <Button size='lg' className='w-full'>
+        <Button
+          size='lg'
+          className='w-full'
+          onClick={() => {
+            addToCart(item);
+          }}
+        >
           <CartIcon className='size-4 mr-3' />
           <span>Add to cart</span>
         </Button>

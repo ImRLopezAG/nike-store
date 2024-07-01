@@ -12,7 +12,7 @@ export default function Customers() {
     <>
       {isLoading && <DataTable columns={columns} data={[]} />}
       {error && <div>Error: {error.message}</div>}
-      <DataTable columns={columns} data={customers ?? []} />
+      {!isLoading && <DataTable columns={columns} data={customers ?? []} />}
     </>
   );
 }

@@ -3,6 +3,7 @@ import { Link } from '@tanstack/react-router';
 import { Search } from './search';
 import { TeamSwitcher } from './team-switcher';
 import { UserNav } from './user-nav';
+import { CartIcon } from '@components/icons'
 
 export function MainNav({
   className,
@@ -50,6 +51,14 @@ export function MainNav({
             </Link>
           </nav>
           <div className='ml-auto flex items-center space-x-4'>
+            <Link
+              to='/cart'
+              className='text-sm font-medium transition-colors hover:text-primary text-muted-foreground flex gap-3'
+              activeProps={{ className: 'text-primary' }}
+            >
+              <CartIcon />
+              <span className='sr-only'>Cart</span>
+            </Link>
             <Search />
             <UserNav />
           </div>

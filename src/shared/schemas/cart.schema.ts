@@ -1,13 +1,8 @@
 import { z } from 'zod';
+import { ProductSchema } from './product.schema';
 
-const ProductSchema = z.object({
-  productId: z.number(),
-  quantity: z.number(),
-});
 
 export const CartSchema = z.object({
-  id: z.number(),
-  userId: z.number(),
-  date: z.coerce.date(),
+  id: z.string().uuid().default(crypto.randomUUID()),
   products: z.array(ProductSchema),
 });

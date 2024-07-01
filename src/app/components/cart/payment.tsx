@@ -20,7 +20,7 @@ import {
 } from '@ui/select';
 export function PaymentMethod() {
   return (
-    <Card>
+    <Card className='max-w-xl border'>
       <CardHeader>
         <CardTitle>Payment Method</CardTitle>
         <CardDescription>
