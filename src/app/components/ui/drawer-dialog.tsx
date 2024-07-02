@@ -73,12 +73,12 @@ const DrawerDialogContent: React.FC<Props> = ({ children, className }) => {
 
   if (isDesktop) {
     return (
-      <DL.DialogContent className={cn('text-black dark:text-white',className)}>{children}</DL.DialogContent>
+      <DL.DialogContent className={cn('text-black dark:text-white',className)} aria-describedby='responsive dialog'>{children}</DL.DialogContent>
     )
   }
 
   return (
-    <DW.DrawerContent className={cn('p-4 text-black dark:text-white', className)}>
+    <DW.DrawerContent className={cn('p-4 text-black dark:text-white', className)} aria-describedby='responsive dialog'>
       {children}
     </DW.DrawerContent>
   )

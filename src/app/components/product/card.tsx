@@ -1,5 +1,5 @@
+import { useCartStore } from '@/app/hooks/use-cart.store';
 import { CartIcon, TagIcon } from '@components/icons';
-import { useCartStore } from '@hooks/use-cart';
 import { AspectRatio } from '@ui/aspect-ratio';
 import { Button } from '@ui/button';
 import { Card, CardContent, CardTitle } from '@ui/card';
@@ -41,7 +41,7 @@ export function ProductCard(item: Product & { withColorways?: boolean }) {
           size='lg'
           className='w-full'
           onClick={() => {
-            addToCart({ ...item, quantity: 1});
+            addToCart({ ...item, quantity: 1 });
           }}
         >
           <CartIcon className='size-4 mr-3' />

@@ -1,150 +1,46 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { useEffect, useState } from 'react';
+import { useCartStore } from '@hooks/use-cart.store';
 
-interface State {
-  cart: Cart;
-}
+export function useCart(item: Item) {
+  const { removeFromCart, cart, addQuantity, removeQuantity } = useCartStore();
+  const { products } = cart;
+  const [quantity, setQuantity] = useState(1);
+  const { title, price, productType, subtitle, images } = item;
+  const { currentPrice, currency } = price;
+  const { squarishURL } = images;
 
-type CartStore = State & {
-  addToCart: (item: Item) => void;
-  removeFromCart: (item: Item) => void;
-  addQuantity: (item: Item) => void;
-  removeQuantity: (item: Item) => void;
-  payCart: () => void;
-  calculateTotals: () => void;
-};
-
-export const useCartStore = create(
-  persist<CartStore>(
-    (set, get) => ({
-      cart: {
-        id: crypto.randomUUID(),
-        products: [],
-        totals: {
-          subtotal: 0,
-          totalVAT: 0,
-          total: 0,
-        },
-      },
-      addToCart: (item: Item) => {
-        set((state) => {
-          const product = state.cart.products.find(
-            (product) => product.id === item.id
-          );
-          return {
-            cart: {
-              ...state.cart,
-              products: product
-                ? state.cart.products.map((product) =>
-                    product.id === item.id
-                      ? { ...product, quantity: product.quantity + 1 }
-                      : product
-                  )
-                : [...state.cart.products, { ...item, quantity: 1 }],
-            },
-          };
-        });
-        get().calculateTotals()
-      },
-      removeFromCart: (item: Product) => {
-        set((state) => ({
-          cart: {
-            ...state.cart,
-            products: state.cart.products.filter(
-              (product) => product.id !== item.id
-            ),
-          },
-        }));
-        get().calculateTotals()
-      },
-      addQuantity: (item: Item) => {
-        set((state) => ({
-          cart: {
-            ...state.cart,
-            products: state.cart.products.map((product) =>
-              product.id === item.id
-                ? { ...product, quantity: product.quantity + 1 }
-                : product
-            ),
-          },
-        }));
-        get().calculateTotals()
-      },
-      removeQuantity: (item: Item) => {
-        set((state) => ({
-          cart: {
-            ...state.cart,
-            products: state.cart.products.map((product) =>
-              product.id === item.id
-                ? { ...product, quantity: product.quantity - 1 }
-                : product
-            ),
-          },
-        }));
-        get().calculateTotals()
-      },
-      calculateTotals: () => {
-        set((state) => {
-          const getProductVAT = (product: Item) =>
-            product.price.fullPrice * 0.18;
-          const getProductTotalExcludingVAT = (product: Item) =>
-            product.price.fullPrice * product.quantity;
-
-          const roundToTwoDecimals = (num: number) =>
-            Number(num.toFixed(2));
-          const getProductTotal = (product: Item) => {
-            const { price } = product;
-            return roundToTwoDecimals(
-              price.fullPrice * product.quantity +
-                getProductVAT(product) * product.quantity
-            );
-          };
-
-          const subtotal = state.cart.products.reduce(
-            (acc, product) => {
-              return roundToTwoDecimals(
-                acc + getProductTotalExcludingVAT(product)
-              );
-            },
-            0
-          );
-          const totalVAT = state.cart.products.reduce((acc, product) => {
-            return roundToTwoDecimals(
-              acc + getProductVAT(product) * product.quantity
-            );
-          }, 0);
-          const total = state.cart.products.reduce((acc, product) => {
-            return roundToTwoDecimals(acc + getProductTotal(product));
-          }, 0);
-
-          return {
-            cart: {
-              ...state.cart,
-              totals: {
-                subtotal,
-                totalVAT,
-                total,
-              },
-            },
-          };
-        });
-      },
-      payCart: () => {
-        set(() => ({
-          cart: {
-            id: crypto.randomUUID(),
-            products: [],
-            totals: {
-              subtotal: 0,
-              totalVAT: 0,
-              total: 0
-            }
-          },
-        }));
-      },
-    }),
-    {
-      name: 'cart-storage',
+  useEffect(() => {
+    const product = products.find((product) => product.id === item.id);
+    if (product) {
+      setQuantity(product.quantity);
     }
-  )
-);
+  }, [item.id, products]);
+
+  const handleAddToCart = () => {
+    addQuantity({ ...item, quantity });
+    setQuantity(quantity + 1);
+  };
+
+  const handleRemoveFromCart = () => {
+    removeFromCart({ ...item, quantity });
+    setQuantity(quantity - 1);
+  };
+
+  const handleRemoveQuantity = () => {
+    removeQuantity({ ...item, quantity });
+    setQuantity(quantity - 1);
+  };
+
+  return {
+    title,
+    subtitle,
+    productType,
+    currentPrice,
+    currency,
+    squarishURL,
+    quantity,
+    handleAddToCart,
+    handleRemoveFromCart,
+    handleRemoveQuantity,
+  };
+}

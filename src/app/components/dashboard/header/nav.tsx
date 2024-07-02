@@ -1,5 +1,5 @@
 import { CartIcon } from '@components/icons';
-import { useCartStore } from '@hooks/use-cart';
+import { useCartStore } from '@hooks/use-cart.store';
 import { cn } from '@shared/lib/utils';
 import { Link } from '@tanstack/react-router';
 import { Badge } from '@ui/badge';
@@ -10,7 +10,7 @@ export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
-  const { cart } = useCartStore();
+  const total = useCartStore((state) => state.cart.totals.products);
   return (
     <div className='hidden flex-col md:flex'>
       <div className='border-b'>
@@ -60,9 +60,9 @@ export function MainNav({
               className='text-sm font-medium transition-colors hover:text-primary text-muted-foreground flex gap-3 relative'
               activeProps={{ className: 'text-primary' }}
             >
-              {cart.products.length > 0 && (
+              {total > 0 && (
                 <Badge className='absolute -top-4 -right-5 rounded-full'>
-                  {cart.products.length}
+                  {total}
                 </Badge>
               )}
               <CartIcon />

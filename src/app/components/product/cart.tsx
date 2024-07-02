@@ -1,38 +1,10 @@
+import { useCart } from '@hooks/use-cart'
 import { MinusIcon, PlusIcon, TagIcon, TrashIcon } from '@components/icons';
-import { useCartStore } from '@hooks/use-cart';
 import { Button } from '@ui/button';
 import { Card, CardContent, CardDescription, CardTitle } from '@ui/card';
-import { useEffect, useState } from 'react';
 
-export function ProductCart(item: Product) {
-  const { removeFromCart, cart, addQuantity, removeQuantity } = useCartStore();
-  const { products } = cart;
-  const [quantity, setQuantity] = useState(1);
-  const { title, price, productType, subtitle, images } = item;
-  const { currentPrice, currency } = price;
-  const { squarishURL } = images;
-
-  useEffect(() => {
-    const product = products.find((product) => product.id === item.id);
-    if (product) {
-      setQuantity(product.quantity);
-    }
-  }, [item.id, products]);
-
-  const handleAddToCart = () => {
-    addQuantity({ ...item, quantity });
-    setQuantity(quantity + 1);
-  };
-
-  const handleRemoveFromCart = () => {
-    removeFromCart({ ...item, quantity });
-    setQuantity(quantity - 1);
-  };
-
-  const handleRemoveQuantity = () => {
-    removeQuantity({ ...item, quantity });
-    setQuantity(quantity - 1);
-  };
+export function ProductCart(item: Item) {
+  const {currency, currentPrice, handleAddToCart, handleRemoveFromCart, handleRemoveQuantity, productType, quantity, squarishURL, subtitle, title} = useCart(item);
 
   return (
     <Card className='w-full flex border max-w-xl'>

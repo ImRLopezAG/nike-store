@@ -1,6 +1,6 @@
+import { useCartStore } from '@hooks/use-cart.store';
 import { OrderDetails } from '@components/cart';
 import { ProductCart } from '@components/product';
-import { useCartStore } from '@hooks/use-cart';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/cart/')({

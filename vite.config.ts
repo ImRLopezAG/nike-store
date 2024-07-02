@@ -19,6 +19,7 @@ export default defineConfig({
       '@providers': path.resolve(__dirname, './src/app/providers'),
       '@schemas': path.resolve(__dirname, './src/shared/schemas'),
       '@shared': path.resolve(__dirname, './src/shared'),
+      '@services': path.resolve(__dirname, './src/service'),
     },
   },
 });
