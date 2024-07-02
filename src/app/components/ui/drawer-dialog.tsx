@@ -57,7 +57,7 @@ const DrawerDialogTitle: React.FC<Props> = ({ children, className }) => {
 
   if (isDesktop) {
     return (
-      <DL.DialogTitle className={cn('text-white', className)}>{children}</DL.DialogTitle>
+      <DL.DialogTitle className={cn('text-primary', className)}>{children}</DL.DialogTitle>
     )
   }
 
@@ -73,12 +73,12 @@ const DrawerDialogContent: React.FC<Props> = ({ children, className }) => {
 
   if (isDesktop) {
     return (
-      <DL.DialogContent className={cn(className)}>{children}</DL.DialogContent>
+      <DL.DialogContent className={cn('text-black dark:text-white',className)}>{children}</DL.DialogContent>
     )
   }
 
   return (
-    <DW.DrawerContent className={cn('p-4', className)}>
+    <DW.DrawerContent className={cn('p-4 text-black dark:text-white', className)}>
       {children}
     </DW.DrawerContent>
   )
@@ -91,11 +91,11 @@ const DrawerDialogFooter: React.FC<Props> = ({ children, className }) => {
 
   if (isDesktop) {
     return (
-      <DL.DialogFooter className={cn(className)}>{children}</DL.DialogFooter>
+      <DL.DialogFooter className={cn('text-black dark:text-white', className)}>{children}</DL.DialogFooter>
     )
   }
 
-  return <DW.DrawerFooter className={cn(className)}>{children}</DW.DrawerFooter>
+  return <DW.DrawerFooter className={cn('text-black dark:text-white', className)}>{children}</DW.DrawerFooter>
 }
 
 DrawerDialogFooter.displayName = 'DrawerDialogFooter'

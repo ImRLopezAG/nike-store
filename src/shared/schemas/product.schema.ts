@@ -9,6 +9,7 @@ const PriceSchema = z.object({
   currency: z.string(),
   currentPrice: z.number(),
   fullPrice: z.number(),
+  employeePrice: z.number(),
 });
 
 export const ColorwaySchema = z.object({

@@ -17,6 +17,7 @@ export const getProducts = async (search: string) => {
                 currency
                 currentPrice
                 fullPrice
+                employeePrice
             }
             colorways {
               pid

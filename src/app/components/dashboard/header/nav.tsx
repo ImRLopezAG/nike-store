@@ -1,14 +1,16 @@
+import { CartIcon } from '@components/icons';
+import { useCartStore } from '@hooks/use-cart';
 import { cn } from '@shared/lib/utils';
 import { Link } from '@tanstack/react-router';
+import { Badge } from '@ui/badge';
 import { Search } from './search';
 import { TeamSwitcher } from './team-switcher';
 import { UserNav } from './user-nav';
-import { CartIcon } from '@components/icons'
-
 export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
+  const { cart } = useCartStore();
   return (
     <div className='hidden flex-col md:flex'>
       <div className='border-b'>
@@ -51,16 +53,21 @@ export function MainNav({
             </Link>
           </nav>
           <div className='ml-auto flex items-center space-x-4'>
+            <Search />
+            <UserNav />
             <Link
               to='/cart'
-              className='text-sm font-medium transition-colors hover:text-primary text-muted-foreground flex gap-3'
+              className='text-sm font-medium transition-colors hover:text-primary text-muted-foreground flex gap-3 relative'
               activeProps={{ className: 'text-primary' }}
             >
+              {cart.products.length > 0 && (
+                <Badge className='absolute -top-4 -right-5 rounded-full'>
+                  {cart.products.length}
+                </Badge>
+              )}
               <CartIcon />
               <span className='sr-only'>Cart</span>
             </Link>
-            <Search />
-            <UserNav />
           </div>
         </div>
       </div>

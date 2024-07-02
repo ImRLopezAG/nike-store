@@ -41,7 +41,7 @@ export function ProductCard(item: Product & { withColorways?: boolean }) {
           size='lg'
           className='w-full'
           onClick={() => {
-            addToCart(item);
+            addToCart({ ...item, quantity: 1});
           }}
         >
           <CartIcon className='size-4 mr-3' />

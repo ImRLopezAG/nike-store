@@ -6,6 +6,9 @@ declare global {
   type Customer = z.infer<typeof schema.CustomerSchema>
   type Page = z.infer<typeof schema.PageSchema>
   type Colorway = z.infer<typeof schema.ColorwaySchema>
+  type Item = Product & {
+    quantity: number
+  }
   interface Props {
     children?: React.ReactNode
     className?: string
