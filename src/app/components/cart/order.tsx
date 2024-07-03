@@ -2,6 +2,9 @@ import { useCartStore } from '@/app/hooks/use-cart.store';
 import { Card, CardContent, CardFooter, CardTitle } from '@ui/card';
 import { Separator } from '@ui/separator';
 import { PaymentMethod } from './payment';
+import { Button } from '@ui/button';
+import { generateInvoice } from '@services/pdf'
+
 export const OrderDetails = () => {
   const totals = useCartStore((state) => state.cart.totals);
   const { subtotal, totalVAT, total } = totals;
@@ -17,8 +20,9 @@ export const OrderDetails = () => {
         <Separator />
         <Cell title='Total' value={`$${total}`} />
       </CardContent>
-      <CardFooter>
+      <CardFooter className='flex gap-2'>
         <PaymentMethod />
+        <Button className='' onClick={generateInvoice} >Place order</Button>
       </CardFooter>
     </Card>
   );

@@ -19,7 +19,7 @@ export const useCartStore = create(
     (set, get) => ({
       cart: {
         id: crypto.randomUUID(),
-        products: [],
+        lines: [],
         totals: {
           products: 0,
           subtotal: 0,
@@ -29,19 +29,19 @@ export const useCartStore = create(
       },
       addToCart: (item: Item) => {
         set((state) => {
-          const product = state.cart.products.find(
+          const product = state.cart.lines.find(
             (product) => product.id === item.id
           );
           return {
             cart: {
               ...state.cart,
-              products: product
-                ? state.cart.products.map((product) =>
+              lines: product
+                ? state.cart.lines.map((product) =>
                     product.id === item.id
                       ? { ...product, quantity: product.quantity + 1 }
                       : product
                   )
-                : [...state.cart.products, { ...item, quantity: 1 }],
+                : [...state.cart.lines, { ...item, quantity: 1 }],
             },
           };
         });
@@ -51,7 +51,7 @@ export const useCartStore = create(
         set((state) => ({
           cart: {
             ...state.cart,
-            products: state.cart.products.filter(
+            lines: state.cart.lines.filter(
               (product) => product.id !== item.id
             ),
           },
@@ -62,7 +62,7 @@ export const useCartStore = create(
         set((state) => ({
           cart: {
             ...state.cart,
-            products: state.cart.products.map((product) =>
+            lines: state.cart.lines.map((product) =>
               product.id === item.id
                 ? { ...product, quantity: product.quantity + 1 }
                 : product
@@ -75,7 +75,7 @@ export const useCartStore = create(
         set((state) => ({
           cart: {
             ...state.cart,
-            products: state.cart.products.map((product) =>
+            lines: state.cart.lines.map((product) =>
               product.id === item.id
                 ? { ...product, quantity: product.quantity - 1 }
                 : product
@@ -101,7 +101,7 @@ export const useCartStore = create(
             );
           };
 
-          const subtotal = state.cart.products.reduce(
+          const subtotal = state.cart.lines.reduce(
             (acc, product) => {
               return roundToTwoDecimals(
                 acc + getProductTotalExcludingVAT(product)
@@ -109,16 +109,16 @@ export const useCartStore = create(
             },
             0
           );
-          const totalVAT = state.cart.products.reduce((acc, product) => {
+          const totalVAT = state.cart.lines.reduce((acc, product) => {
             return roundToTwoDecimals(
               acc + getProductVAT(product) * product.quantity
             );
           }, 0);
-          const total = state.cart.products.reduce((acc, product) => {
+          const total = state.cart.lines.reduce((acc, product) => {
             return roundToTwoDecimals(acc + getProductTotal(product));
           }, 0);
 
-          const totalProducts = state.cart.products.reduce((acc, product) => {
+          const products = state.cart.lines.reduce((acc, product) => {
             return roundToTwoDecimals(acc + product.quantity);
           }, 0);
 
@@ -126,7 +126,7 @@ export const useCartStore = create(
             cart: {
               ...state.cart,
               totals: {
-                products: totalProducts,
+                products: products,
                 subtotal,
                 totalVAT,
                 total,
@@ -139,7 +139,7 @@ export const useCartStore = create(
         set(() => ({
           cart: {
             id: crypto.randomUUID(),
-            products: [],
+            lines: [],
             totals: {
               products: 0,
               subtotal: 0,

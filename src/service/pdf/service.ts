@@ -1,17 +1,6 @@
-import PdfMake from 'pdfmake'
-import type { TDocumentDefinitions } from 'pdfmake/interfaces'
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import type { TDocumentDefinitions } from 'pdfmake/interfaces';
+pdfMake.vfs = pdfFonts.pdfMake.vfs
 
-const fonts = {
-  Roboto: {
-    normal: 'fonts/Roboto-Regular.ttf',
-    bold: 'fonts/Roboto-Medium.ttf',
-    italics: 'fonts/Roboto-Italic.ttf',
-    bolditalics: 'fonts/Roboto-MediumItalic.ttf',
-  },
-}
-
-const printer = new PdfMake(fonts)
-
-export const createPdf = (docDefinition: TDocumentDefinitions) => {
-  return printer.createPdfKitDocument(docDefinition)
-}
+export const createPdf = (doc: TDocumentDefinitions) => pdfMake.createPdf(doc);

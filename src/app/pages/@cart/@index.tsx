@@ -9,13 +9,13 @@ export const Route = createFileRoute('/cart/')({
 
 function Cart() {
   const { cart } = useCartStore();
-  const { products } = cart;
+  const { lines } = cart;
   return (
     <div className='flex flex-col gap-4'>
       <h1 className='text-3xl font-bold'>Cart</h1>
       <div className='grid grid-rows-1 md:grid-cols-2 gap-4 justify-center'>
         <div className='flex flex-col gap-2'>
-          {products.flatMap((product) => (
+          {lines.map((product) => (
             <ProductCart key={product.id} {...product} />
           ))}
         </div>
