@@ -6,8 +6,9 @@ import { Button } from '@ui/button';
 import { generateInvoice } from '@services/pdf'
 
 export const OrderDetails = () => {
-  const totals = useCartStore((state) => state.cart.totals);
-  const { subtotal, totalVAT, total } = totals;
+  const { cart } = useCartStore((state) => state);
+
+  const { subtotal, totalVAT, total } = cart.totals;
 
   return (
     <Card className='w-full max-w-md'>
@@ -22,7 +23,9 @@ export const OrderDetails = () => {
       </CardContent>
       <CardFooter className='flex gap-2'>
         <PaymentMethod />
-        <Button className='' onClick={generateInvoice} >Place order</Button>
+        <Button className='' onClick={() => {
+          generateInvoice(cart)
+        }} >Place order</Button>
       </CardFooter>
     </Card>
   );

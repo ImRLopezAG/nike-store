@@ -6,7 +6,7 @@ import { CloseIcon } from '@components/icons'
 import { generateInvoice } from '@services/pdf'
 export function usePayment() {
   const [isOpen, setIsOpen] = useState(false);
-  const { payCart } = useCartStore();
+  const { payCart, cart } = useCartStore();
   const CARD: Record<string, RegExp> = {
     Visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
     MasterCard: /^5[1-5][0-9]{14}$/,
@@ -79,7 +79,7 @@ export function usePayment() {
         description: 'Thank you for your purchase! 🎉'
       })
       if (withInvoice) {
-        generateInvoice();
+        generateInvoice(cart);
         toast({
           title: 'Invoice sent',
           description: 'Your invoice has been sent to your email',

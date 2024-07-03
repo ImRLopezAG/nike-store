@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
+import { customAlphabet } from 'nanoid'
 interface State {
   cart: Cart;
 }
@@ -14,11 +14,13 @@ type CartStore = State & {
   calculateTotals: () => void;
 };
 
+const nanoid = customAlphabet('1234567890abcdef', 10)
+
 export const useCartStore = create(
   persist<CartStore>(
     (set, get) => ({
       cart: {
-        id: crypto.randomUUID(),
+        id: `INV-${nanoid(5)}`,
         lines: [],
         totals: {
           products: 0,
@@ -138,7 +140,7 @@ export const useCartStore = create(
       payCart: () => {
         set(() => ({
           cart: {
-            id: crypto.randomUUID(),
+            id: `INV-${nanoid(5)}`,
             lines: [],
             totals: {
               products: 0,
