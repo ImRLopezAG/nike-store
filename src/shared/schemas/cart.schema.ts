@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { ProductSchema } from './product.schema';
-const CardSchema = z.object({
+export const CardSchema = z.object({
   number: z.string().length(16),
   cvc: z.string().length(3),
   month: z.string().length(2),
@@ -15,7 +15,7 @@ const TotalsSchema = z.object({
   total: z.number(),
 });
 
-const CustomerSchema = z.object({
+export const CustomerPaymentSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   address: z.string(),
@@ -24,6 +24,10 @@ const CustomerSchema = z.object({
   zip: z.string(),
   country: z.string(),
   phone: z.string(),
+});
+
+export const PaymentSchema = z.object({
+  customer: CustomerPaymentSchema,
   card: CardSchema,
 });
 
@@ -35,5 +39,5 @@ export const CartSchema = z.object({
     })
   ),
   totals: TotalsSchema,
-  customer: CustomerSchema,
+  payment: PaymentSchema,
 });
