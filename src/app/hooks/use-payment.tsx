@@ -1,48 +1,19 @@
-import { cards, generateHolder } from '@/service';
+import { generateHolder, initCustomer } from '@/service';
 import { CloseIcon } from '@components/icons';
 import { useCartStore } from '@hooks/use-cart.store';
 import { toast } from '@hooks/use-toast';
 import { generateInvoice } from '@services/pdf';
 import { ToastAction } from '@ui/toast';
 import { useState } from 'react';
-const initValues: Payment = {
-  customer: {
-    name: '',
-    email: '',
-    address: '',
-    city: '',
-    state: '',
-    country: '',
-    zip: '',
-    phone: '',
-  },
-  card: {
-    number: '',
-    cvc: '',
-    month: '',
-    year: '',
-    holder: 'Visa',
-  },
-};
-const errors = {
-  ...initValues.customer,
-  card: {
-    ...initValues.card,
-    holder: '',
-  },
-};
+import { usePaymentValidations } from './use-payment-validations'
+
 export function usePayment() {
   const [isOpen, setIsOpen] = useState(false);
   const { payCart, cart, handleCustomerInvoice } = useCartStore();
-
-  const [customer, setCustomer] = useState<CustomerPayment>(
-    initValues.customer
-  );
-  const [card, setCard] = useState<Card>(initValues.card);
-  const [cardError, setCardError] = useState(errors.card);
-  const [customerError, setCustomerError] = useState<CustomerPayment>(
-    initValues.customer
-  );
+  const [customer, setCustomer] = useState<CustomerPayment>(initCustomer.customer);
+  const [card, setCard] = useState<Card>(initCustomer.card);
+  const { cardError, customerError, validateCard, validateCustomer, isValid } = usePaymentValidations();
+  
 
   const handleCustomer = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCustomer({ ...customer, [e.target.name]: e.target.value });
@@ -52,82 +23,21 @@ export function usePayment() {
   };
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const validations = {
-      name: () => {
-        handleCustomerError('name', 'Name is required', value !== '');
-      },
-      number: () => {
-        const joined = value.match(/\d+/g)?.join('') ?? '';
-        const validate =
-          cards.MasterCard.test(joined) ||
-          cards.Visa.test(joined) ||
-          cards['American Express'].test(joined) ||
-          cards.Discover.test(joined);
-
-        handleCardError('number', 'Invalid Card Number', validate);
-      },
-      month: function () {
-        handleCardError('month', 'Month is required', value !== '');
-      },
-      year: function () {
-        handleCardError('year', 'Year is required', value !== '');
-      },
-      cvc: () => {
-        handleCardError('cvc', 'CVC is required', value.length === 3);
-      },
-      address: () => {
-        handleCustomerError('address', 'Address is required', value !== '');
-      },
-      city: () => {
-        handleCustomerError('city', 'City is required', value !== '');
-      },
-      state: () => {
-        handleCustomerError('state', 'State is required', value !== '');
-      },
-      zip: () => {
-        const validZip = /^[0-9]{5}(?:-[0-9]{4})?$/.test(value);
-        handleCustomerError('zip', 'Zip is required', validZip);
-      },
-      country: () => {
-        handleCustomerError('country', 'Country is required', value !== '');
-      },
-      holder: () => {
-        
-      },
-      email: () => {
-        const validEmail =
-          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
-        handleCustomerError('email', 'Email is required', validEmail);
-      },
-    };
-    validations[name as keyof Payment['card']]();
+      if (name in card) {
+      validateCard(name as KeyOf<Card>, value);
+    }
+    if (name in customer) {
+      validateCustomer(name as KeyOf<Payment['customer']>, value);
+    }
   };
 
-  const handleCustomerError = (
-    property: keyof CustomerPayment,
-    value: string,
-    validation: boolean
-  ) => {
-    setCustomerError({ ...customerError, [property]: validation ? '' : value });
-  };
-  const handleCardError = (
-    property: keyof Card,
-    value: string,
-    validation: boolean
-  ) => {
-    setCardError({ ...cardError, [property]: validation ? '' : value });
-  };
-
-  const isValid =
-    Object.values(cardError).every((value) => value === '') &&
-    Object.values(customerError).every((value) => value === '');
 
   const handlePay = (withInvoice: boolean) => {
     if (isValid) {
       handleCustomerInvoice({ ...customer, ...card });
       payCart();
-      setCustomer(initValues.customer);
-      setCard(initValues.card);
+      setCustomer(initCustomer.customer);
+      setCard(initCustomer.card);
       setIsOpen(false);
       toast({
         title: 'Payment successful',
@@ -141,12 +51,14 @@ export function usePayment() {
         });
       }
     } else {
-      const errors = Object.values(cardError).filter((value) => value !== '').concat(Object.values(customerError).filter((value) => value !== ''));
+      const errors = Object.values(cardError)
+        .filter((value) => value !== '')
+        .concat(Object.values(customerError).filter((value) => value !== ''));
       console.log({
         customer: customerError,
         card: cardError,
         errors,
-      })
+      });
       toast({
         title: 'Payment failed',
         description: 'Please check the following errors:',
