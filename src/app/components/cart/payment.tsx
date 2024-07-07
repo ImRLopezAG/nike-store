@@ -11,13 +11,16 @@ import { SelectItem } from '@ui/select';
 
 export function PaymentMethod() {
   const {
-    errors,
-    fields,
+    isOpen,
+    card,
+    customer,
+    customerError,
+    cardError,
+    handleCard,
+    handleCustomer,
     handleBlur,
-    handleChange,
     handleIsOpen,
     handlePay,
-    isOpen,
     generateHolders,
     handleMonth,
     handleYear,
@@ -32,73 +35,83 @@ export function PaymentMethod() {
         <span className='text-sm text-muted-foreground'>
           Add a new payment method to your account.
         </span>
-        <section className='flex flex-col gap-3'>
+        <section className='flex flex-col gap-1'>
           <PaymentMethodRadio generateHolders={generateHolders} />
           <div className='grid gap-2 grid-cols-2'>
             <PaymentInput
               identifier='name'
-              value={fields.name}
-              handleChange={handleChange}
+              value={customer.name}
+              handleChange={handleCustomer}
               handleBlur={handleBlur}
-              errors={errors.name}
+              errors={customerError.name}
               type='text'
               placeholder='First Last'
             />
             <PaymentInput
               identifier='address'
-              value={fields.address}
-              handleChange={handleChange}
+              value={customer.address}
+              handleChange={handleCustomer}
               handleBlur={handleBlur}
-              errors={errors.address}
+              errors={customerError.address}
               type='text'
               placeholder='1234 Main St'
             />
           </div>
+          <PaymentInput
+            identifier='email'
+            value={customer.email}
+            handleChange={handleCustomer}
+            handleBlur={handleBlur}
+            errors={customerError.email}
+            type='email'
+            placeholder='Email'
+          />
           <div className='grid gap-2 grid-cols-3'>
             <PaymentInput
               identifier='city'
-              value={fields.city}
-              handleChange={handleChange}
+              value={customer.city}
+              handleChange={handleCustomer}
               handleBlur={handleBlur}
-              errors={errors.city}
+              errors={customerError.city}
               type='text'
               placeholder='City'
             />
             <PaymentInput
               identifier='state'
-              value={fields.state}
-              handleChange={handleChange}
+              value={customer.state}
+              handleChange={handleCustomer}
               handleBlur={handleBlur}
-              errors={errors.state}
+              errors={customerError.state}
               type='text'
               placeholder='State'
             />
-            <PaymentInput
-              identifier='zip'
-              value={fields.zip}
-              handleChange={handleChange}
-              handleBlur={handleBlur}
-              errors={errors.zip}
-              type='text'
-              placeholder='Zip'
-            />
-          </div>
-          <div className='grid gap-2 grid-cols-2'>
+            
             <PaymentInput
               identifier='country'
-              value={fields.country}
-              handleChange={handleChange}
+              value={customer.country}
+              handleChange={handleCustomer}
               handleBlur={handleBlur}
-              errors={errors.country}
+              errors={customerError.country}
               type='text'
               placeholder='Country'
             />
+          </div>
+          <div className='grid gap-2 grid-cols-2'>
+          <PaymentInput
+              identifier='zip'
+              value={customer.zip}
+              handleChange={handleCustomer}
+              handleBlur={handleBlur}
+              errors={customerError.zip}
+              type='text'
+              placeholder='Zip'
+            />
             <PaymentInput
               identifier='number'
-              value={fields.number}
-              handleChange={handleChange}
+              value={card.number}
+              handleChange={handleCard}
               handleBlur={handleBlur}
-              errors={errors.number}
+              errors={cardError.number}
               type='text'
               placeholder='Card Number'
             >
@@ -108,16 +121,16 @@ export function PaymentMethod() {
                   Visa: <VisaIcon />,
                   Discover: <DiscoverIcon />,
                   'American Express': <AmericanExpressIcon />,
-                }[fields.holder]}
+                }[card.holder]}
               </div>
             </PaymentInput>
           </div>
           <div className='grid grid-cols-3 gap-4'>
             <PaymentSelect
               identifier='month'
-              value={fields.month}
+              value={card.month}
               onValueChange={handleMonth}
-              errors={errors.month}
+              errors={cardError.month}
               handleBlur={handleBlur}
             >
               {Array.from({ length: 12 }, (_, i) => {
@@ -131,9 +144,9 @@ export function PaymentMethod() {
             </PaymentSelect>
             <PaymentSelect
               identifier='year'
-              value={fields.year}
+              value={card.year}
               onValueChange={handleYear}
-              errors={errors.year}
+              errors={cardError.year}
               handleBlur={handleBlur}
             >
               {Array.from({ length: 10 }, (_, i) => {
@@ -147,10 +160,10 @@ export function PaymentMethod() {
             </PaymentSelect>
             <PaymentInput
               identifier='cvc'
-              value={fields.cvc}
-              handleChange={handleChange}
+              value={card.cvc}
+              handleChange={handleCard}
               handleBlur={handleBlur}
-              errors={errors.cvc}
+              errors={cardError.cvc}
               type='text'
               placeholder='CVC'
             />
