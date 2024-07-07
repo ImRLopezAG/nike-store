@@ -21,3 +21,29 @@ export const cartService = () => {
     getProductTotal,
   };
 }
+export const initCustomer: Payment = {
+  customer: {
+    name: '',
+    email: '',
+    address: '',
+    city: '',
+    state: '',
+    country: '',
+    zip: '',
+    phone: '',
+  },
+  card: {
+    number: '',
+    cvc: '',
+    month: '',
+    year: '',
+    holder: 'Visa',
+  },
+};
+export const errors = {
+  ...initCustomer.customer,
+  card: {
+    ...initCustomer.card,
+    holder: '',
+  },
+};
