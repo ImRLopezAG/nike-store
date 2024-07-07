@@ -57,15 +57,26 @@ export function PaymentMethod() {
               placeholder='1234 Main St'
             />
           </div>
-          <PaymentInput
-            identifier='email'
-            value={customer.email}
-            handleChange={handleCustomer}
-            handleBlur={handleBlur}
-            errors={customerError.email}
-            type='email'
-            placeholder='Email'
-          />
+          <div className='grid gap-2 grid-cols-2'>
+            <PaymentInput
+              identifier='email'
+              value={customer.email}
+              handleChange={handleCustomer}
+              handleBlur={handleBlur}
+              errors={customerError.email}
+              type='email'
+              placeholder='Email'
+            />
+            <PaymentInput
+              identifier='phone'
+              value={customer.phone}
+              handleChange={handleCustomer}
+              handleBlur={handleBlur}
+              errors={customerError.phone}
+              type='tel'
+              placeholder='Phone'
+              />
+          </div>
           <div className='grid gap-2 grid-cols-3'>
             <PaymentInput
               identifier='city'
