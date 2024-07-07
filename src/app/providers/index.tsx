@@ -1,15 +1,15 @@
+import { Toaster } from '@ui/toaster';
 import { PaginationProvider } from './context';
 import { SWRProvider } from './swr.provider';
 import { ThemeProvider } from './theme.provider';
-import { Toaster } from '@ui/toaster'
 
 export const Providers: React.FC<Props> = ({ children }) => (
-  <PaginationProvider>
+  <ThemeProvider defaultTheme='dark'>
     <SWRProvider>
-      <ThemeProvider defaultTheme='dark'>
+      <PaginationProvider>
         {children}
         <Toaster />
-      </ThemeProvider>
+      </PaginationProvider>
     </SWRProvider>
-  </PaginationProvider>
+  </ThemeProvider>
 );
