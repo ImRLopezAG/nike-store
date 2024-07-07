@@ -1,19 +1,13 @@
 import {
-  AppleIcon,
-  CartIcon,
-  CreditCardIcon,
-  InvoiceIcon,
-  PaypalIcon,
-} from '@components/icons';
+  PaymentInput,
+  PaymentMethodRadio,
+  PaymentSelect,
+} from '@components/cart/components';
+import { CartIcon, InvoiceIcon, AmericanExpressIcon, VisaIcon, MasterCardIcon, DiscoverIcon } from '@components/icons';
 import { usePayment } from '@hooks/use-payment';
-import { cn } from '@shared/lib/utils';
 import { Button } from '@ui/button';
-import { CardDescription } from '@ui/card';
 import * as DW from '@ui/drawer-dialog';
-import { Input } from '@ui/input';
-import { Label } from '@ui/label';
-import { RadioGroup, RadioGroupItem } from '@ui/radio-group';
-import * as SL from '@ui/select';
+import { SelectItem } from '@ui/select';
 
 export function PaymentMethod() {
   const {
@@ -35,160 +29,133 @@ export function PaymentMethod() {
       </DW.DrawerDialogTrigger>
       <DW.DrawerDialogContent>
         <DW.DrawerDialogTitle>Payment Method</DW.DrawerDialogTitle>
-        <CardDescription>
+        <span className='text-sm text-muted-foreground'>
           Add a new payment method to your account.
-        </CardDescription>
-        <div className='grid gap-6'>
-          <RadioGroup
-            defaultValue='card'
-            className='grid grid-cols-3 gap-4'
-            onValueChange={() => {
-              generateHolders();
-            }}
-          >
-            <div>
-              <RadioGroupItem value='card' id='card' className='peer sr-only' />
-              <Label
-                htmlFor='card'
-                className='flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary'
-              >
-                <CreditCardIcon className='mb-3' />
-                Card
-              </Label>
-            </div>
-            <div>
-              <RadioGroupItem
-                value='paypal'
-                id='paypal'
-                className='peer sr-only'
-              />
-              <Label
-                htmlFor='paypal'
-                className='flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary'
-              >
-                <PaypalIcon className='mb-3' />
-                Paypal
-              </Label>
-            </div>
-            <div>
-              <RadioGroupItem
-                value='apple'
-                id='apple'
-                className='peer sr-only'
-              />
-              <Label
-                htmlFor='apple'
-                className='flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary'
-              >
-                <AppleIcon className='mb-3' />
-                Apple
-              </Label>
-            </div>
-          </RadioGroup>
-          <div className='grid gap-2'>
-            <Label htmlFor='name'>Name</Label>
-            <Input
-              id='name'
-              name='name'
-              placeholder='First Last'
+        </span>
+        <section className='flex flex-col gap-3'>
+          <PaymentMethodRadio generateHolders={generateHolders} />
+          <div className='grid gap-2 grid-cols-2'>
+            <PaymentInput
+              identifier='name'
               value={fields.name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className={cn(errors.name && 'border-red-500')}
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              errors={errors.name}
+              type='text'
+              placeholder='First Last'
             />
-            <span className='text-red-500 text-sm min-h-4'>{errors.name}</span>
+            <PaymentInput
+              identifier='address'
+              value={fields.address}
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              errors={errors.address}
+              type='text'
+              placeholder='1234 Main St'
+            />
           </div>
-          <div className='grid gap-2'>
-            <Label htmlFor='number'>Card number</Label>
-            <Input
-              id='number'
-              name='number'
-              placeholder=''
-              value={fields.number}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className={cn(errors.number && 'border-red-500')}
+          <div className='grid gap-2 grid-cols-3'>
+            <PaymentInput
+              identifier='city'
+              value={fields.city}
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              errors={errors.city}
+              type='text'
+              placeholder='City'
             />
-            <span className='text-red-500 text-sm min-h-4'>
-              {errors.number}
-            </span>
+            <PaymentInput
+              identifier='state'
+              value={fields.state}
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              errors={errors.state}
+              type='text'
+              placeholder='State'
+            />
+            <PaymentInput
+              identifier='zip'
+              value={fields.zip}
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              errors={errors.zip}
+              type='text'
+              placeholder='Zip'
+            />
+          </div>
+          <div className='grid gap-2 grid-cols-2'>
+            <PaymentInput
+              identifier='country'
+              value={fields.country}
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              errors={errors.country}
+              type='text'
+              placeholder='Country'
+            />
+            <PaymentInput
+              identifier='number'
+              value={fields.number}
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              errors={errors.number}
+              type='text'
+              placeholder='Card Number'
+            >
+              <div className='absolute right-0 -top-1 bottom-0 flex items-center pr-2'>
+                {{
+                  MasterCard: <MasterCardIcon />,
+                  Visa: <VisaIcon />,
+                  Discover: <DiscoverIcon />,
+                  'American Express': <AmericanExpressIcon />,
+                }[fields.holder]}
+              </div>
+            </PaymentInput>
           </div>
           <div className='grid grid-cols-3 gap-4'>
-            <div className='grid gap-2'>
-              <Label htmlFor='month'>Expires</Label>
-              <SL.Select
-                value={fields.month}
-                name='month'
-                onValueChange={handleMonth}
-              >
-                <SL.SelectTrigger id='month' name='month'>
-                  <SL.SelectValue placeholder='Month' />
-                </SL.SelectTrigger>
-                <SL.SelectContent
-                  onBlur={handleBlur}
-                  className={cn(errors.month && 'border-red-500')}
-                >
-                  <SL.SelectItem value='1'>January</SL.SelectItem>
-                  <SL.SelectItem value='2'>February</SL.SelectItem>
-                  <SL.SelectItem value='3'>March</SL.SelectItem>
-                  <SL.SelectItem value='4'>April</SL.SelectItem>
-                  <SL.SelectItem value='5'>May</SL.SelectItem>
-                  <SL.SelectItem value='6'>June</SL.SelectItem>
-                  <SL.SelectItem value='7'>July</SL.SelectItem>
-                  <SL.SelectItem value='8'>August</SL.SelectItem>
-                  <SL.SelectItem value='9'>September</SL.SelectItem>
-                  <SL.SelectItem value='10'>October</SL.SelectItem>
-                  <SL.SelectItem value='11'>November</SL.SelectItem>
-                  <SL.SelectItem value='12'>December</SL.SelectItem>
-                </SL.SelectContent>
-              </SL.Select>
-              <span className='text-red-500 text-sm min-h-4'>
-                {errors.month}
-              </span>
-            </div>
-            <div className='grid gap-2'>
-              <Label htmlFor='year'>Year</Label>
-              <SL.Select
-                value={fields.year}
-                name='year'
-                onValueChange={handleYear}
-              >
-                <SL.SelectTrigger id='year' name='year'>
-                  <SL.SelectValue placeholder='Year' />
-                </SL.SelectTrigger>
-                <SL.SelectContent
-                  onBlur={handleBlur}
-                  className={cn(errors.year && 'border-red-500')}
-                >
-                  {Array.from({ length: 10 }, (_, i) => (
-                    <SL.SelectItem
-                      key={i}
-                      value={`${new Date().getFullYear() + i}`}
-                    >
-                      {new Date().getFullYear() + i}
-                    </SL.SelectItem>
-                  ))}
-                </SL.SelectContent>
-              </SL.Select>
-              <span className='text-red-500 text-sm min-h-4'>
-                {errors.year}
-              </span>
-            </div>
-            <div className='grid gap-2'>
-              <Label htmlFor='cvc'>CVC</Label>
-              <Input
-                id='cvc'
-                name='cvc'
-                placeholder='CVC'
-                value={fields.cvc}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={cn(errors.cvc && 'border-red-500')}
-              />
-              <span className='text-red-500 text-sm min-h-4'>{errors.cvc}</span>
-            </div>
+            <PaymentSelect
+              identifier='month'
+              value={fields.month}
+              onValueChange={handleMonth}
+              errors={errors.month}
+              handleBlur={handleBlur}
+            >
+              {Array.from({ length: 12 }, (_, i) => {
+                const date = new Date(0, i + 1, 0).toUTCString().split(' ')[2];
+                return (
+                  <SelectItem key={i} value={`${i + 1}`}>
+                    {date}
+                  </SelectItem>
+                );
+              })}
+            </PaymentSelect>
+            <PaymentSelect
+              identifier='year'
+              value={fields.year}
+              onValueChange={handleYear}
+              errors={errors.year}
+              handleBlur={handleBlur}
+            >
+              {Array.from({ length: 10 }, (_, i) => {
+                const date = (new Date().getFullYear() + i).toLocaleString().slice(-2);
+                return (
+                  <SelectItem key={i} value={`${date}`}>
+                    {date}
+                  </SelectItem>
+                );
+              })}
+            </PaymentSelect>
+            <PaymentInput
+              identifier='cvc'
+              value={fields.cvc}
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              errors={errors.cvc}
+              type='text'
+              placeholder='CVC'
+            />
           </div>
-        </div>
+        </section>
         <DW.DrawerDialogFooter className='px-0'>
           <Button
             className='w-full'
