@@ -9,6 +9,20 @@ declare global {
   type Item = Product & {
     quantity: number
   }
+  interface PaymentForm {
+    name: string
+    email: string
+    number: string
+    cvv: string
+    month: string
+    year: string
+    address: string
+    city: string
+    state: string
+    zip: string
+    country: string
+    holder:  'Visa' | 'MasterCard' | 'American Express' | 'Discover'
+  }
   interface Props {
     children?: React.ReactNode
     className?: string
