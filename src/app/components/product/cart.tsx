@@ -4,12 +4,12 @@ import { Button } from '@ui/button';
 import { Card, CardContent, CardDescription, CardTitle } from '@ui/card';
 
 export function ProductCart(item: Item) {
-  const {currency, currentPrice, handleAddToCart, handleRemoveFromCart, handleRemoveQuantity, productType, quantity, squarishURL, subtitle, title} = useCart(item);
+  const { currency, currentPrice, handleAddToCart, handleRemoveFromCart, handleRemoveQuantity, productType, quantity, squarishURL, subtitle, title } = useCart(item);
 
   return (
     <Card className='w-full flex border max-w-xl'>
       <picture className='object-cover p-1 w-3/5'>
-        <img src={squarishURL} alt={title} className='size-48 rounded-lg' />
+        <img src={squarishURL} alt={title} className='size-48 rounded-lg' loading='lazy' />
       </picture>
       <CardContent className='flex p-2 gap-2 w-full'>
         <section className='w-full flex flex-col gap-3'>

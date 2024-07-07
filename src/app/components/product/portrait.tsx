@@ -35,13 +35,14 @@ export const Portrait: React.FC<Props> = ({ item }) => {
             })}
           </CarouselContent>
 
-          <CarouselPrevious  />
+          <CarouselPrevious />
           <CarouselNext />
         </Carousel>
       )}
       {!hasColorways && (
         <AspectRatio ratio={1 / 1}>
           <img
+            loading='lazy'
             className='object-cover w-full h-full rounded-lg'
             src={images.squarishURL}
             alt={item.title}
