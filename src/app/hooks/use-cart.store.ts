@@ -46,6 +46,7 @@ const initialState: State = {
       subtotal: 0,
       totalVAT: 0,
       total: 0,
+      shipping: 0,
     },
   },
 };
@@ -135,6 +136,8 @@ export const useCartStore = create(
             return round2Decimals(acc + product.quantity);
           }, 0);
 
+          const shipping = round2Decimals(total * .08);
+
           return {
             cart: {
               ...state.cart,
@@ -143,6 +146,7 @@ export const useCartStore = create(
                 subtotal,
                 totalVAT,
                 total,
+                shipping,
               },
             },
           };
