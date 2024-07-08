@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { customAlphabet } from 'nanoid'
+import { cartService } from '@/service'
 interface State {
   cart: Cart;
 }
@@ -12,23 +13,48 @@ type CartStore = State & {
   removeQuantity: (item: Item) => void;
   payCart: () => void;
   calculateTotals: () => void;
+  handleCustomerInvoice: (customer: CustomerPayment) => void;
 };
 
 const nanoid = customAlphabet('1234567890abcdef', 10)
 
+const initialState: State = {
+  cart: {
+    id: `INV-${nanoid(5)}`,
+    payment: {
+      customer: {
+        name: '',
+      email: '',
+      address: '',
+      city: '',
+      state: '',
+      zip: '',
+      country: '',
+      phone: '',
+      },
+      card: {
+        number: '',
+        cvc: '',
+        month: '',
+        year: '',
+        holder: 'Visa',
+      },
+    },
+    lines: [],
+    totals: {
+      products: 0,
+      subtotal: 0,
+      totalVAT: 0,
+      total: 0,
+      shipping: 0,
+    },
+  },
+};
+
 export const useCartStore = create(
   persist<CartStore>(
     (set, get) => ({
-      cart: {
-        id: `INV-${nanoid(5)}`,
-        lines: [],
-        totals: {
-          products: 0,
-          subtotal: 0,
-          totalVAT: 0,
-          total: 0,
-        },
-      },
+      cart: initialState.cart,
       addToCart: (item: Item) => {
         set((state) => {
           const product = state.cart.lines.find(
@@ -88,41 +114,29 @@ export const useCartStore = create(
       },
       calculateTotals: () => {
         set((state) => {
-          const getProductVAT = (product: Item) =>
-            product.price.fullPrice * 0.18;
-          const getProductTotalExcludingVAT = (product: Item) =>
-            product.price.fullPrice * product.quantity;
-
-          const roundToTwoDecimals = (num: number) =>
-            Number(num.toFixed(2));
-          const getProductTotal = (product: Item) => {
-            const { price } = product;
-            return roundToTwoDecimals(
-              price.fullPrice * product.quantity +
-                getProductVAT(product) * product.quantity
-            );
-          };
-
+          const { getProductTotalExcludingVAT, getProductVAT, getProductTotal, round2Decimals } = cartService();
           const subtotal = state.cart.lines.reduce(
             (acc, product) => {
-              return roundToTwoDecimals(
+              return round2Decimals(
                 acc + getProductTotalExcludingVAT(product)
               );
             },
             0
           );
           const totalVAT = state.cart.lines.reduce((acc, product) => {
-            return roundToTwoDecimals(
+            return round2Decimals(
               acc + getProductVAT(product) * product.quantity
             );
           }, 0);
           const total = state.cart.lines.reduce((acc, product) => {
-            return roundToTwoDecimals(acc + getProductTotal(product));
+            return round2Decimals(acc + getProductTotal(product));
           }, 0);
 
           const products = state.cart.lines.reduce((acc, product) => {
-            return roundToTwoDecimals(acc + product.quantity);
+            return round2Decimals(acc + product.quantity);
           }, 0);
+
+          const shipping = round2Decimals(total * .08);
 
           return {
             cart: {
@@ -132,23 +146,26 @@ export const useCartStore = create(
                 subtotal,
                 totalVAT,
                 total,
+                shipping,
               },
             },
           };
         });
       },
+      handleCustomerInvoice: (customer: CustomerPayment) => {
+        set((state) => ({
+          cart: {
+            ...state.cart,
+            payment: {
+              ...state.cart.payment,
+              customer,
+            },
+          },
+        }));
+      },
       payCart: () => {
         set(() => ({
-          cart: {
-            id: `INV-${nanoid(5)}`,
-            lines: [],
-            totals: {
-              products: 0,
-              subtotal: 0,
-              totalVAT: 0,
-              total: 0
-            }
-          },
+          cart: initialState.cart,
         }));
       },
     }),
