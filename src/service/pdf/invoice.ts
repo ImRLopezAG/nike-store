@@ -1,52 +1,27 @@
-import { createPdf } from '@services/pdf';
+import { createPdf, tableHeader, header, styles } from '@services/pdf';
+import { cartService } from '@services/cart'
 import type { TDocumentDefinitions } from 'pdfmake/interfaces';
 
 const invoice = (cart: Cart): TDocumentDefinitions => {
-  const roundToTwoDecimals = (num: number) => Number(num.toFixed(2));
-  const getProductVAT = (product: Item) =>
-    roundToTwoDecimals(product.price.fullPrice * 0.18);
-  const getProductTotalExcludingVAT = (product: Item) =>
-    product.price.fullPrice * product.quantity;
-
-  const getProductTotal = (product: Item) => {
-    const { price } = product;
-    return roundToTwoDecimals(
-      price.fullPrice * product.quantity +
-        getProductVAT(product) * product.quantity
-    );
-  };
+  const {getProductTotal, getProductTotalExcludingVAT, getProductVAT, f} = cartService();
   const { lines, totals } = cart;
   const items = lines.map((product) => {
     const { title, price, quantity } = product;
-
     return [
       title,
       quantity,
-      price.fullPrice,
-      getProductVAT(product),
-      getProductTotalExcludingVAT(product),
-      getProductTotal(product),
+      f(price.fullPrice),
+      f(getProductVAT(product)),
+      f(getProductTotalExcludingVAT(product)),
+      f(getProductTotal(product)),
     ];
   });
-  const { subtotal, totalVAT, total } = totals;
+  const { subtotal, totalVAT, total, shipping } = totals;
   return {
-    header: {
-      margin: 10,
-      columns: [
-        { text: 'Company Name', style: 'header' },
-        { text: `Invoice No. ${cart.id}`, alignment: 'right' },
-      ],
-    },
+    header: header(),
     content: [
       {
-        layout: {
-          hLineWidth: () => 0,
-          vLineWidth: () => 0,
-          hLineColor: function (i) {
-            return i === 1 ? 'black' : '#aaa';
-          },
-          fillColor: (i, node) => (i === 0 || i === node.table.body.length - 1 ? '#C0D1D8' : null),
-        },
+        layout: 'lightHorizontalLines',
         table: {
           headerRows: 1,
           widths: ['*', 'auto', 'auto', 'auto', 'auto', 'auto'],
@@ -60,30 +35,21 @@ const invoice = (cart: Cart): TDocumentDefinitions => {
               tableHeader('Total'),
             ],
             ...items,
-            lines.length > 0 ? ['Totals', '', '', totalVAT, subtotal, total] : Array(6).fill(''),
+            lines.length > 0 ? ['Totals', '', '', f(totalVAT), f(subtotal), f(total)] : Array(6).fill(''),
           ],
         },
       }
     ],
-    styles: {
-      header: {
-        fontSize: 18,
-        bold: true,
-      },
-      subheader: {
-        fontSize: 14,
-        bold: true,
-        margin: [0, 15, 0, 0],
-      },
-      tableHeader: {
-        bold: true,
-        fontSize: 11,
-        color: 'black',
-      },
-    },
+    styles,
+    images: {
+      logo: `${getBaseURL()}public/logo.png`,
+    }
   };
 };
 
-const tableHeader = (text: string) => ({ text, style: 'tableHeader' });
 
 export const generateInvoice = (cart: Cart) => createPdf(invoice(cart)).open();
+const getBaseURL = () => {
+  const { protocol, hostname, port } = window.location;
+  return `${protocol}//${hostname}${port ? `:${port}` : ''}/`;
+}
