@@ -14,11 +14,18 @@ export const cartService = () => {
     );
   }
 
+  const f = (value: number) => 
+    new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(value);
+
   return {
     getProductVAT,
     getProductTotalExcludingVAT,
     round2Decimals,
     getProductTotal,
+    f,
   };
 }
 export const initCustomer: Payment = {
