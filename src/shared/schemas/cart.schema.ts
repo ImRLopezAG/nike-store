@@ -12,6 +12,7 @@ const TotalsSchema = z.object({
   products: z.number(),
   subtotal: z.number(),
   totalVAT: z.number(),
+  shipping: z.number(),
   total: z.number(),
 });
 
