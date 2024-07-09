@@ -41,4 +41,5 @@ export const CartSchema = z.object({
   ),
   totals: TotalsSchema,
   payment: PaymentSchema,
+  createdAt: z.string()
 });
