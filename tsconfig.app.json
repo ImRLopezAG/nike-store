@@ -23,19 +23,19 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    /* Paths */
-    "baseUrl": "./",
+    /* Path */
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@app/*": ["src/app/*"],
-      "@components/*": ["src/app/components/*"],
-      "@ui/*": ["src/app/components/ui/*"],
-      "@hooks/*": ["src/app/hooks/*"],
-      "@context/*": ["src/app/context/*"],
-      "@providers/*": ["src/app/providers/*"],
-      "@schemas/*": ["src/shared/schemas/*"],
-      "@shared/*": ["src/shared/*"],
-      "@services/*": ["src/service/*"],
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/app/components/*"],
+      "@hooks/*": ["./src/app/hooks/*"],
+      "@pages/*": ["./src/app/pages/*"],
+      "@services/*": ["./src/services/*"],
+      "@ui/*": ["./src/app/components/ui/*"],
+      "@providers/*": ["./src/app/providers/*"],
+      "@shared/*": ["./src/shared/*"],
     }
   },
   "include": ["src"]

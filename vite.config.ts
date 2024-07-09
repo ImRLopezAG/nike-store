@@ -12,14 +12,14 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
       '@app': path.resolve(__dirname, './src/app'),
+      '@assets': path.resolve(__dirname, './src/assets'),
       '@components': path.resolve(__dirname, './src/app/components'),
-      '@ui': path.resolve(__dirname, './src/app/components/ui'),
       '@hooks': path.resolve(__dirname, './src/app/hooks'),
-      '@context': path.resolve(__dirname, './src/app/context'),
+      '@pages': path.resolve(__dirname, './src/app/pages'),
+      '@services': path.resolve(__dirname, './src/services'),
+      '@ui': path.resolve(__dirname, './src/app/components/ui'),
       '@providers': path.resolve(__dirname, './src/app/providers'),
-      '@schemas': path.resolve(__dirname, './src/shared/schemas'),
       '@shared': path.resolve(__dirname, './src/shared'),
-      '@services': path.resolve(__dirname, './src/service'),
     },
   },
 });
