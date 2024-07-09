@@ -17,31 +17,36 @@ export const Navigation: React.FC<Props> = ({ className }) => {
       </Link>
       <Link
         to='/'
-        className='text-foreground transition-colors hover:text-foreground'
+        className='text-muted-foreground transition-colors hover:text-foreground'
+        activeProps={{ className: 'text-primary' }}
       >
         Dashboard
       </Link>
       <Link
         to='/customers'
         className='text-muted-foreground transition-colors hover:text-foreground'
+        activeProps={{ className: 'text-primary' }}
       >
         Customers
       </Link>
       <Link
         to='/women'
         className='text-muted-foreground transition-colors hover:text-foreground'
+        activeProps={{ className: 'text-primary' }}
       >
         Women
       </Link>
       <Link
         to='/men'
         className='text-muted-foreground transition-colors hover:text-foreground'
+        activeProps={{ className: 'text-primary' }}
       >
         Men
       </Link>
       <Link
         to='/cart'
         className='text-muted-foreground transition-colors hover:text-foreground relative'
+        activeProps={{ className: 'text-primary' }}
       >
         {total > 0 && (
           <Badge className='absolute -top-4 -right-5 rounded-full'>
