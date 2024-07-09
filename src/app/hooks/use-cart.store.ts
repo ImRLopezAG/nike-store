@@ -1,7 +1,7 @@
+import { cartService } from '@/services';
+import { customAlphabet } from 'nanoid';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { customAlphabet } from 'nanoid'
-import { cartService } from '@/service'
 interface State {
   cart: Cart;
 }
@@ -16,7 +16,7 @@ type CartStore = State & {
   handleCustomerInvoice: (customer: CustomerPayment) => void;
 };
 
-const nanoid = customAlphabet('1234567890abcdef', 10)
+const nanoid = customAlphabet('1234567890abcdef', 10);
 
 const initialState: State = {
   cart: {
@@ -24,13 +24,13 @@ const initialState: State = {
     payment: {
       customer: {
         name: '',
-      email: '',
-      address: '',
-      city: '',
-      state: '',
-      zip: '',
-      country: '',
-      phone: '',
+        email: '',
+        address: '',
+        city: '',
+        state: '',
+        zip: '',
+        country: '',
+        phone: '',
       },
       card: {
         number: '',
@@ -48,6 +48,11 @@ const initialState: State = {
       total: 0,
       shipping: 0,
     },
+    createdAt: new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(new Date())
   },
 };
 
@@ -73,18 +78,16 @@ export const useCartStore = create(
             },
           };
         });
-        get().calculateTotals()
+        get().calculateTotals();
       },
       removeFromCart: (item: Product) => {
         set((state) => ({
           cart: {
             ...state.cart,
-            lines: state.cart.lines.filter(
-              (product) => product.id !== item.id
-            ),
+            lines: state.cart.lines.filter((product) => product.id !== item.id),
           },
         }));
-        get().calculateTotals()
+        get().calculateTotals();
       },
       addQuantity: (item: Item) => {
         set((state) => ({
@@ -97,7 +100,7 @@ export const useCartStore = create(
             ),
           },
         }));
-        get().calculateTotals()
+        get().calculateTotals();
       },
       removeQuantity: (item: Item) => {
         set((state) => ({
@@ -110,19 +113,19 @@ export const useCartStore = create(
             ),
           },
         }));
-        get().calculateTotals()
+        get().calculateTotals();
       },
       calculateTotals: () => {
         set((state) => {
-          const { getProductTotalExcludingVAT, getProductVAT, getProductTotal, round2Decimals } = cartService();
-          const subtotal = state.cart.lines.reduce(
-            (acc, product) => {
-              return round2Decimals(
-                acc + getProductTotalExcludingVAT(product)
-              );
-            },
-            0
-          );
+          const {
+            getProductTotalExcludingVAT,
+            getProductVAT,
+            getProductTotal,
+            round2Decimals,
+          } = cartService();
+          const subtotal = state.cart.lines.reduce((acc, product) => {
+            return round2Decimals(acc + getProductTotalExcludingVAT(product));
+          }, 0);
           const totalVAT = state.cart.lines.reduce((acc, product) => {
             return round2Decimals(
               acc + getProductVAT(product) * product.quantity
@@ -136,7 +139,7 @@ export const useCartStore = create(
             return round2Decimals(acc + product.quantity);
           }, 0);
 
-          const shipping = round2Decimals(total * .08);
+          const shipping = round2Decimals(total * 0.08);
 
           return {
             cart: {

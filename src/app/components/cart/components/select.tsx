@@ -1,19 +1,14 @@
-import { cn } from '@shared/lib/utils';
+import { cn } from '@shared/utils';
 import { Label } from '@ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectTrigger,
-  SelectValue,
-} from '@ui/select';
-type PaymentSelectProps  = Props & {
+import { Select, SelectContent, SelectTrigger, SelectValue } from '@ui/select';
+type PaymentSelectProps = Props & {
   identifier: string;
   value: string;
   onValueChange: (e: string) => void;
   errors?: string;
   handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   children: React.ReactNode;
-}
+};
 export const PaymentSelect: React.FC<PaymentSelectProps> = (props) => (
   <div className={cn('grid gap-2 relative', props.className)}>
     <Label htmlFor='month' className='capitalize'>

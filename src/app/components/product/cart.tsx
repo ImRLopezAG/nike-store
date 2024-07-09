@@ -1,59 +1,51 @@
-import { useCart } from '@hooks/use-cart'
-import { MinusIcon, PlusIcon, TagIcon, TrashIcon } from '@components/icons';
+import { useCart } from '@hooks/use-cart';
 import { Button } from '@ui/button';
-import { Card, CardContent, CardDescription, CardTitle } from '@ui/card';
+import { TableCell, TableRow } from '@ui/table';
+import { MinusCircle, PlusCircle, TrashIcon } from 'lucide-react';
+import { cartService } from '@services/cart'
 
 export function ProductCart(item: Item) {
-  const { currency, currentPrice, handleAddToCart, handleRemoveFromCart, handleRemoveQuantity, productType, quantity, squarishURL, subtitle, title } = useCart(item);
+  const {
+    currentPrice,
+    handleAddToCart,
+    handleRemoveFromCart,
+    handleRemoveQuantity,
+    quantity,
+    squarishURL,
+    title,
+  } = useCart(item);
+  const {f} = cartService();
 
   return (
-    <Card className='w-full flex border max-w-xl'>
-      <picture className='object-cover p-1 w-3/5'>
-        <img src={squarishURL} alt={title} className='size-48 rounded-lg' loading='lazy' />
-      </picture>
-      <CardContent className='flex p-2 gap-2 w-full'>
-        <section className='w-full flex flex-col gap-3'>
-          <CardTitle>{title}</CardTitle>
-          <CardDescription>{subtitle}</CardDescription>
-          <div className='flex items-center gap-2 text-sm text-muted-foreground'>
-            <TagIcon className='size-4' />
-            <span>{productType}</span>
-          </div>
-          <div className='flex items-center gap-2'>
-            <Button
-              variant='ghost'
-              className='hover:bg-yellow-500/15'
-              onClick={handleRemoveQuantity}
-              disabled={quantity === 1}
-            >
-              <MinusIcon className='size-4' />
-              <span className='sr-only'>Remove from cart</span>
-            </Button>
-            <span>{quantity}</span>
-            <Button
-              variant='ghost'
-              className='hover:bg-green-500/15'
-              onClick={handleAddToCart}
-            >
-              <PlusIcon className='size-4' />
-              <span className='sr-only'>Add to cart</span>
-            </Button>
-            <Button
-              variant='ghost'
-              className='hover:bg-red-500/15'
-              onClick={handleRemoveFromCart}
-            >
-              <TrashIcon className='size-4' />
-              <span className='sr-only'>Remove from cart</span>
-            </Button>
-          </div>
-        </section>
-        <section>
-          <div className='text-2xl font-bold'>
-            {currency} ${currentPrice}
-          </div>
-        </section>
-      </CardContent>
-    </Card>
+    <TableRow>
+      <TableCell className='hidden sm:table-cell'>
+        <img
+          alt={title}
+          className='aspect-square rounded-md object-cover'
+          height='64'
+          src={squarishURL}
+          width='64'
+        />
+      </TableCell>
+      <TableCell className='font-medium'>{title}</TableCell>
+      <TableCell className='hidden md:table-cell'>
+        {f(currentPrice)}
+      </TableCell>
+      <TableCell className='hidden md:table-cell'>{quantity}</TableCell>
+      <TableCell>
+        <Button size='icon' variant='ghost' onClick={handleAddToCart}>
+          <PlusCircle className='h-4 w-4 text-green-500' />
+          <span className='sr-only'>Add</span>
+        </Button>
+        <Button size='icon' variant='ghost' onClick={handleRemoveQuantity}>
+          <MinusCircle className='h-4 w-4 text-blue-500' />
+          <span className='sr-only'>Remove</span>
+        </Button>
+        <Button size='icon' variant='ghost' onClick={handleRemoveFromCart}>
+          <TrashIcon className='h-4 w-4 text-red-500' />
+          <span className='sr-only'>Delete</span>
+        </Button>
+      </TableCell>
+    </TableRow>
   );
 }

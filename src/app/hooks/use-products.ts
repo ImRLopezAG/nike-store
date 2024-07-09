@@ -1,4 +1,4 @@
-import { getProducts } from '@/service';
+import { getProducts } from '@services/api';
 import { usePage } from '@hooks/use-pagination';
 import { useEffect } from 'react';
 import useSWR from 'swr';

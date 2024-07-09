@@ -3,11 +3,17 @@ import {
   PaymentMethodRadio,
   PaymentSelect,
 } from '@components/cart/components';
-import { CartIcon, InvoiceIcon, AmericanExpressIcon, VisaIcon, MasterCardIcon, DiscoverIcon } from '@components/icons';
+import {
+  AmericanExpressIcon,
+  DiscoverIcon,
+  MasterCardIcon,
+  VisaIcon,
+} from '@components/icons';
 import { usePayment } from '@hooks/use-payment';
 import { Button } from '@ui/button';
 import * as DW from '@ui/drawer-dialog';
 import { SelectItem } from '@ui/select';
+import { User2Icon } from 'lucide-react';
 
 export function PaymentMethod() {
   const {
@@ -20,15 +26,15 @@ export function PaymentMethod() {
     handleCustomer,
     handleBlur,
     handleIsOpen,
-    handlePay,
     generateHolders,
     handleMonth,
     handleYear,
+    regInvoice,
   } = usePayment();
   return (
     <DW.DrawerDialog open={isOpen} setOpen={handleIsOpen}>
       <DW.DrawerDialogTrigger>
-        <Button>Payment Method</Button>
+        <Button>Invoice</Button>
       </DW.DrawerDialogTrigger>
       <DW.DrawerDialogContent>
         <DW.DrawerDialogTitle>Payment Method</DW.DrawerDialogTitle>
@@ -48,17 +54,6 @@ export function PaymentMethod() {
               placeholder='First Last'
             />
             <PaymentInput
-              identifier='address'
-              value={customer.address}
-              handleChange={handleCustomer}
-              handleBlur={handleBlur}
-              errors={customerError.address}
-              type='text'
-              placeholder='1234 Main St'
-            />
-          </div>
-          <div className='grid gap-2 grid-cols-2'>
-            <PaymentInput
               identifier='email'
               value={customer.email}
               handleChange={handleCustomer}
@@ -66,6 +61,17 @@ export function PaymentMethod() {
               errors={customerError.email}
               type='email'
               placeholder='Email'
+            />
+          </div>
+          <div className='grid gap-2 grid-cols-2'>
+            <PaymentInput
+              identifier='address'
+              value={customer.address}
+              handleChange={handleCustomer}
+              handleBlur={handleBlur}
+              errors={customerError.address}
+              type='text'
+              placeholder='1234 Main St'
             />
             <PaymentInput
               identifier='phone'
@@ -75,7 +81,7 @@ export function PaymentMethod() {
               errors={customerError.phone}
               type='tel'
               placeholder='Phone'
-              />
+            />
           </div>
           <div className='grid gap-2 grid-cols-3'>
             <PaymentInput
@@ -96,7 +102,7 @@ export function PaymentMethod() {
               type='text'
               placeholder='State'
             />
-            
+
             <PaymentInput
               identifier='country'
               value={customer.country}
@@ -108,7 +114,7 @@ export function PaymentMethod() {
             />
           </div>
           <div className='grid gap-2 grid-cols-2'>
-          <PaymentInput
+            <PaymentInput
               identifier='zip'
               value={customer.zip}
               handleChange={handleCustomer}
@@ -127,12 +133,14 @@ export function PaymentMethod() {
               placeholder='Card Number'
             >
               <div className='absolute right-0 -top-1 bottom-0 flex items-center pr-2'>
-                {{
-                  MasterCard: <MasterCardIcon />,
-                  Visa: <VisaIcon />,
-                  Discover: <DiscoverIcon />,
-                  'American Express': <AmericanExpressIcon />,
-                }[card.holder]}
+                {
+                  {
+                    MasterCard: <MasterCardIcon />,
+                    Visa: <VisaIcon />,
+                    Discover: <DiscoverIcon />,
+                    'American Express': <AmericanExpressIcon />,
+                  }[card.holder]
+                }
               </div>
             </PaymentInput>
           </div>
@@ -161,7 +169,9 @@ export function PaymentMethod() {
               handleBlur={handleBlur}
             >
               {Array.from({ length: 10 }, (_, i) => {
-                const date = (new Date().getFullYear() + i).toLocaleString().slice(-2);
+                const date = (new Date().getFullYear() + i)
+                  .toLocaleString()
+                  .slice(-2);
                 return (
                   <SelectItem key={i} value={`${date}`}>
                     {date}
@@ -184,20 +194,11 @@ export function PaymentMethod() {
           <Button
             className='w-full'
             onClick={() => {
-              handlePay(false);
+              regInvoice();
             }}
           >
-            <CartIcon className='mr-2' />
-            Pay
-          </Button>
-          <Button
-            className='w-full'
-            onClick={() => {
-              handlePay(true);
-            }}
-          >
-            <InvoiceIcon className='mr-2' />
-            Pay and invoice
+            <User2Icon className='mr-2' />
+            Register
           </Button>
         </DW.DrawerDialogFooter>
       </DW.DrawerDialogContent>

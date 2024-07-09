@@ -1,4 +1,5 @@
-import { cards, errors, initCustomer } from '@/service';
+import { cards } from '@services/card';
+import { errors, initCustomer } from '@services/cart';
 import { useCallback, useMemo, useState } from 'react';
 
 export function usePaymentValidations() {
@@ -25,7 +26,11 @@ export function usePaymentValidations() {
           [property]: validation ? '' : value,
         });
       };
-      const valid = value !== '' && value !== undefined && value !== null && value.length > 3;
+      const valid =
+        value !== '' &&
+        value !== undefined &&
+        value !== null &&
+        value.length > 3;
       const validations: Record<KeyOf<Payment['customer']>, () => void> = {
         name: () => {
           handleCustomerError('name', 'Name is required', valid);
@@ -53,7 +58,11 @@ export function usePaymentValidations() {
         },
         phone: () => {
           const validPhone = /^\d{10}$/.test(value);
-          handleCustomerError('phone', 'Phone is required', valid && validPhone);
+          handleCustomerError(
+            'phone',
+            'Phone is required',
+            valid && validPhone
+          );
         },
       };
       validations[property]();

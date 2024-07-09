@@ -1,6 +1,6 @@
 import { Input } from '@ui/input'
 import { Label } from '@ui/label'
-import { cn } from '@shared/lib/utils'
+import { cn } from '@shared/utils'
 
 type PaymentInputProps = Props & {
   value: string;
@@ -25,6 +25,7 @@ export const PaymentInput: React.FC<PaymentInputProps> = (props) => (
       onBlur={props.handleBlur}
       type={props.type}
       className={cn(props.errors && 'border-red-500')}
+      autoComplete='off'
     />
     <span className='text-red-500 text-sm min-h-4'>{props.errors}</span>
   </div>
