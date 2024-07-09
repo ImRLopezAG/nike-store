@@ -1,19 +1,16 @@
 import { Providers } from '@app/providers';
-import { MainNav } from '@components/dashboard';
+import { Header } from '@components/dashboard';
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
-import './globals.css';
 
 export const Route = createRootRoute({
   component: () => (
     <Providers>
-      <main className='bg-background min-h-screen w-full p-4 dark:text-white text-black space-y-4'>
-        <MainNav />
-        <div className='p-5 space-y-5'>
-          <Outlet />
-        </div>
+      <Header />
+      <main className='flex flex-col gap-4 p-4 md:p-6'>
+        <Outlet />
       </main>
-      <TanStackRouterDevtools />
+      <TanStackRouterDevtools position='bottom-right' />
     </Providers>
   ),
 });
