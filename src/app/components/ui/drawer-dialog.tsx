@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { cn } from '@shared/lib/utils'
+import { cn } from '@shared/utils'
 import { useMediaQuery } from '@hooks/use-media-query'
 import * as DL from '@ui/dialog'
 import * as DW from '@ui/drawer'
@@ -31,6 +31,7 @@ const DrawerDialog: React.FC<DrawerDialogProps> = ({
 }
 
 DrawerDialog.displayName = 'DrawerDialog'
+
 
 const DrawerDialogTrigger: React.FC<Props> = ({ children, className }) => {
   const isDesktop = useMediaQuery('(min-width: 768px)')
@@ -73,12 +74,12 @@ const DrawerDialogContent: React.FC<Props> = ({ children, className }) => {
 
   if (isDesktop) {
     return (
-      <DL.DialogContent className={cn('text-black dark:text-white',className)} aria-describedby='responsive dialog'>{children}</DL.DialogContent>
+      <DL.DialogContent className={cn('text-black dark:text-white',className)} aria-description='responsive dialog'>{children}</DL.DialogContent>
     )
   }
 
   return (
-    <DW.DrawerContent className={cn('p-4 text-black dark:text-white', className)} aria-describedby='responsive dialog'>
+    <DW.DrawerContent className={cn('p-4 text-black dark:text-white', className)} aria-description='responsive dialog'>
       {children}
     </DW.DrawerContent>
   )
@@ -86,16 +87,17 @@ const DrawerDialogContent: React.FC<Props> = ({ children, className }) => {
 
 DrawerDialogContent.displayName = 'DrawerDialogContent'
 
+
 const DrawerDialogFooter: React.FC<Props> = ({ children, className }) => {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
     return (
-      <DL.DialogFooter className={cn('text-black dark:text-white', className)}>{children}</DL.DialogFooter>
+      <DL.DialogFooter aria-describedby='responsive dialog footer' className={cn('text-black dark:text-white', className)}>{children}</DL.DialogFooter>
     )
   }
 
-  return <DW.DrawerFooter className={cn('text-black dark:text-white', className)}>{children}</DW.DrawerFooter>
+  return <DW.DrawerFooter aria-description='responsive dialog footer' className={cn('text-black dark:text-white', className)}>{children}</DW.DrawerFooter>
 }
 
 DrawerDialogFooter.displayName = 'DrawerDialogFooter'
