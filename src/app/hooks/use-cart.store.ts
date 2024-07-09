@@ -14,6 +14,7 @@ type CartStore = State & {
   payCart: () => void;
   calculateTotals: () => void;
   handleCustomerInvoice: (customer: CustomerPayment) => void;
+  handleCardInvoice: (card: Card) => void;
 };
 
 const nanoid = customAlphabet('1234567890abcdef', 10);
@@ -162,6 +163,17 @@ export const useCartStore = create(
             payment: {
               ...state.cart.payment,
               customer,
+            },
+          },
+        }));
+      },
+      handleCardInvoice: (card: Card) => {
+        set((state) => ({
+          cart: {
+            ...state.cart,
+            payment: {
+              ...state.cart.payment,
+              card,
             },
           },
         }));

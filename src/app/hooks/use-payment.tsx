@@ -1,4 +1,4 @@
-import { generateHolder, initCustomer } from '@/services';
+import { generateHolder } from '@/services';
 import { CloseIcon } from '@components/icons';
 import { useCartStore } from '@hooks/use-cart.store';
 import { toast } from '@hooks/use-toast';
@@ -9,11 +9,12 @@ import { usePaymentValidations } from './use-payment-validations';
 
 export function usePayment() {
   const [isOpen, setIsOpen] = useState(false);
-  const { payCart, cart, handleCustomerInvoice } = useCartStore();
+  const { payCart, cart, handleCustomerInvoice, handleCardInvoice } = useCartStore();
+  const {card: cardStore, customer: customerStore} = useCartStore(store => store.cart.payment);
   const [customer, setCustomer] = useState<CustomerPayment>(
-    initCustomer.customer
+    customerStore
   );
-  const [card, setCard] = useState<Card>(initCustomer.card);
+  const [card, setCard] = useState<Card>(cardStore);
   const { cardError, customerError, validateCard, validateCustomer, isValid } =
     usePaymentValidations();
 
@@ -47,10 +48,9 @@ export function usePayment() {
   const handlePay = useCallback(
     (withInvoice: boolean) => {
       if (isValid) {
-        handleCustomerInvoice({ ...customer, ...card });
         payCart();
-        setCustomer(initCustomer.customer);
-        setCard(initCustomer.card);
+        setCustomer(customerStore);
+        setCard(cardStore);
         setIsOpen(false);
         toast({
           title: 'Payment successful',
@@ -84,18 +84,7 @@ export function usePayment() {
           ),
         });
       }
-    },
-    [
-      isValid,
-      customer,
-      card,
-      cardError,
-      customerError,
-      handleCustomerInvoice,
-      payCart,
-      cart,
-    ]
-  );
+    },[cardError, cardStore, cart, customerError, customerStore, isValid, payCart]  );
 
   const generateHolders = useCallback(() => {
     const { number, month, year, cvc, holder } = generateHolder();
@@ -146,7 +135,9 @@ export function usePayment() {
       });
       return;
     }
-    handleCustomerInvoice({ ...customer, ...card });
+    handleCustomerInvoice({ ...customer });
+    handleCardInvoice({ ...card });
+    setIsOpen(false);
   }, [
     isValid,
     cardError,

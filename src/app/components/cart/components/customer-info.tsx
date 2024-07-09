@@ -58,14 +58,12 @@ export const CustomerInfo = () => {
           <div className='flex items-center justify-between'>
             <dt className='flex items-center gap-1 text-muted-foreground'>
               <div className='flex items-center'>
-                {
-                  {
+                {{
                     MasterCard: <MasterCardIcon />,
                     Visa: <VisaIcon />,
                     Discover: <DiscoverIcon />,
                     'American Express': <AmericanExpressIcon />,
-                  }[card.holder]
-                }
+                  }[card.holder]}
               </div>
               <span>{card.holder}</span>
             </dt>
