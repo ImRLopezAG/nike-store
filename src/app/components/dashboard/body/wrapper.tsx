@@ -1,5 +1,5 @@
 import { usePage } from '@hooks/use-pagination';
-import { cn } from '@shared/lib/utils';
+import { cn } from '@shared/utils';
 import {
   Pagination,
   PaginationContent,
