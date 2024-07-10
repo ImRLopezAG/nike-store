@@ -104,6 +104,9 @@ export const useCartStore = create(
         get().calculateTotals();
       },
       removeQuantity: (item: Item) => {
+        if (item.quantity === 1) {
+          return get().removeFromCart(item);
+        }
         set((state) => ({
           cart: {
             ...state.cart,
