@@ -1,61 +1,124 @@
-// Big shoutout to https://x.com/shadcn/ for creating this component or is the inspiration for this component
-
-'use client';
-
-import { GithubIcon, GoogleIcon } from '@components/icons';
+import { InputField } from '@ui/input';
+import { useRegister } from '@hooks/use-register';
 import { Button } from '@ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@ui/card';
-import { Input } from '@ui/input';
-import { Label } from '@ui/label';
-export function CreateAccount() {
+import * as DW from '@ui/drawer-dialog';
+import { User2Icon } from 'lucide-react';
+
+export function Register() {
+  const {
+    isOpen,
+    customer,
+    customerError,
+    handleCustomer,
+    handleBlur,
+    handleIsOpen,
+    register,
+  } = useRegister();
   return (
-    <Card>
-      <CardHeader className='space-y-1'>
-        <CardTitle className='text-2xl'>Create an account</CardTitle>
-        <CardDescription>
-          Enter your email below to create your account
-        </CardDescription>
-      </CardHeader>
-      <CardContent className='grid gap-4'>
-        <div className='grid grid-cols-2 gap-6'>
-          <Button variant='outline'>
-            <GithubIcon className='mr-2 h-4 w-4' />
-            Github
-          </Button>
-          <Button variant='outline'>
-            <GoogleIcon className='mr-2 h-4 w-4' />
-            Google
-          </Button>
-        </div>
-        <div className='relative'>
-          <div className='absolute inset-0 flex items-center'>
-            <span className='w-full border-t' />
+    <DW.DrawerDialog open={isOpen} setOpen={handleIsOpen}>
+      <DW.DrawerDialogTrigger>
+        <Button>Create Account</Button>
+      </DW.DrawerDialogTrigger>
+      <DW.DrawerDialogContent>
+        <DW.DrawerDialogTitle>Create Account</DW.DrawerDialogTitle>
+        <span className='text-sm text-muted-foreground'>
+          Register a new account
+        </span>
+        <section className='flex flex-col gap-1'>
+          <div className='grid gap-2 grid-cols-2'>
+            <InputField
+              identifier='name'
+              value={customer.name}
+              handleChange={handleCustomer}
+              handleBlur={handleBlur}
+              errors={customerError.name}
+              type='text'
+              placeholder='First Last'
+            />
+            <InputField
+              identifier='email'
+              value={customer.email}
+              handleChange={handleCustomer}
+              handleBlur={handleBlur}
+              errors={customerError.email}
+              type='email'
+              placeholder='Email'
+            />
           </div>
-          <div className='relative flex justify-center text-xs uppercase'>
-            <span className='bg-background px-2 text-muted-foreground'>
-              Or continue with
-            </span>
+          <div className='grid gap-2 grid-cols-2'>
+            <InputField
+              identifier='address'
+              value={customer.address}
+              handleChange={handleCustomer}
+              handleBlur={handleBlur}
+              errors={customerError.address}
+              type='text'
+              placeholder='1234 Main St'
+            />
+            <InputField
+              identifier='phone'
+              value={customer.phone}
+              handleChange={handleCustomer}
+              handleBlur={handleBlur}
+              errors={customerError.phone}
+              type='tel'
+              placeholder='Phone'
+            />
           </div>
-        </div>
-        <div className='grid gap-2'>
-          <Label htmlFor='email'>Email</Label>
-          <Input id='email' type='email' placeholder='m@example.com' />
-        </div>
-        <div className='grid gap-2'>
-          <Label htmlFor='password'>Password</Label>
-          <Input id='password' type='password' />
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button className='w-full'>Create account</Button>
-      </CardFooter>
-    </Card>
+          <div className='grid gap-2 grid-cols-3'>
+            <InputField
+              identifier='city'
+              value={customer.city}
+              handleChange={handleCustomer}
+              handleBlur={handleBlur}
+              errors={customerError.city}
+              type='text'
+              placeholder='City'
+            />
+            <InputField
+              identifier='state'
+              value={customer.state}
+              handleChange={handleCustomer}
+              handleBlur={handleBlur}
+              errors={customerError.state}
+              type='text'
+              placeholder='State'
+            />
+
+            <InputField
+              identifier='country'
+              value={customer.country}
+              handleChange={handleCustomer}
+              handleBlur={handleBlur}
+              errors={customerError.country}
+              type='text'
+              placeholder='Country'
+            />
+          </div>
+          <div className='grid gap-2 grid-cols-2'>
+            <InputField
+              identifier='zip'
+              value={customer.zip}
+              handleChange={handleCustomer}
+              handleBlur={handleBlur}
+              errors={customerError.zip}
+              type='text'
+              placeholder='Zip'
+            />
+          </div>
+        </section>
+        <DW.DrawerDialogFooter className='px-0'>
+          <Button
+            className='w-full'
+            onClick={() => {
+              register();
+            }}
+          >
+            <User2Icon className='mr-2' />
+            Register
+          </Button>
+        </DW.DrawerDialogFooter>
+      </DW.DrawerDialogContent>
+    </DW.DrawerDialog>
   );
 }
