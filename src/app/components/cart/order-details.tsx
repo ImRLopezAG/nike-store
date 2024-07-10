@@ -12,6 +12,7 @@ import {
 import {CustomerInfo, PreviewOrder} from '@components/cart/components'
 import { Copy} from 'lucide-react';
 import { PaymentMethod } from '@components/cart'
+import { Login } from '@components/account'
 export const OrderDetails: React.FC<Props> = () => {
   const { cart } = useCartStore((state) => state);
   const { f } = cartService();
@@ -50,7 +51,10 @@ export const OrderDetails: React.FC<Props> = () => {
         {name && <CustomerInfo />}
       </CardContent>
       <CardFooter className='flex flex-row items-center border-t bg-muted/50 px-6 py-3'>
-        <PaymentMethod />
+        {name && <PaymentMethod />}
+        {!name && (
+          <Login />
+        )}
       </CardFooter>
     </Card>
   );
