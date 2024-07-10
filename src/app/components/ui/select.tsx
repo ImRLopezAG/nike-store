@@ -6,6 +6,7 @@ import {
   ChevronUpIcon,
 } from "@radix-ui/react-icons"
 import * as SelectPrimitive from "@radix-ui/react-select"
+import { Label } from "@ui/label"
 
 import { cn } from "@/shared/utils"
 
@@ -148,6 +149,38 @@ const SelectSeparator = React.forwardRef<
 ))
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName
 
+type SelectFieldProps = Props & {
+  identifier: string;
+  value: string;
+  onValueChange: (e: string) => void;
+  errors?: string;
+  handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+  children: React.ReactNode;
+};
+const SelectField: React.FC<SelectFieldProps> = (props) => (
+  <div className={cn('grid gap-2 relative', props.className)}>
+    <Label htmlFor='month' className='capitalize'>
+      {props.identifier}
+    </Label>
+    <Select
+      value={props.value}
+      name={props.identifier}
+      onValueChange={props.onValueChange}
+    >
+      <SelectTrigger id='month' name='month'>
+        <SelectValue placeholder='Month' />
+      </SelectTrigger>
+      <SelectContent
+        onBlur={props.handleBlur}
+        className={cn(props.errors && 'border-red-500')}
+      >
+        {props.children}
+      </SelectContent>
+    </Select>
+    <span className='text-red-500 text-sm min-h-4'>{props.errors}</span>
+  </div>
+)
+
 export {
   Select,
   SelectGroup,
@@ -159,4 +192,5 @@ export {
   SelectSeparator,
   SelectScrollUpButton,
   SelectScrollDownButton,
+  SelectField,
 }

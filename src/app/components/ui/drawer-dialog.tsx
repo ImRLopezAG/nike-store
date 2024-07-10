@@ -69,6 +69,22 @@ const DrawerDialogTitle: React.FC<Props> = ({ children, className }) => {
 
 DrawerDialogTitle.displayName = 'DrawerDialogTitle'
 
+const DrawerDialogDescription: React.FC<Props> = ({ children, className }) => {
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  if (isDesktop) {
+    return (
+      <DL.DialogDescription className={cn('text-black dark:text-white', className)}>{children}</DL.DialogDescription>
+    )
+  }
+
+  return (
+    <DW.DrawerDescription className={cn('text-black dark:text-white', className)}>{children}</DW.DrawerDescription>
+  )
+}
+
+DrawerDialogDescription.displayName = 'DrawerDialogDescription'
+
 const DrawerDialogContent: React.FC<Props> = ({ children, className }) => {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
@@ -107,5 +123,6 @@ export {
   DrawerDialogContent,
   DrawerDialogFooter,
   DrawerDialogTrigger,
-  DrawerDialogTitle
+  DrawerDialogTitle,
+  DrawerDialogDescription
 }
