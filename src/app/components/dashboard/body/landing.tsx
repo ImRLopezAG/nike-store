@@ -37,7 +37,7 @@ export const Landing = () => {
               </p>
             </div>
           </div>
-          <div className='flex justify-center relative'>
+          <div className='flex justify-center relative hover:scale-105 transition-transform duration-300'>
             <img
               src='/landing.png'
               width='550'

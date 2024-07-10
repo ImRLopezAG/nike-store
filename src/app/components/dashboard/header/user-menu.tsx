@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@ui/dropdown-menu';
 import { CircleUser } from 'lucide-react';
+import { ReportIssue } from '@components/account'
 
 export const UserMenu: React.FC<Props> = () => {
   return (
@@ -22,7 +23,9 @@ export const UserMenu: React.FC<Props> = () => {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <ReportIssue />
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Logout</DropdownMenuItem>
       </DropdownMenuContent>
