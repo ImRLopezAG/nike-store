@@ -2,7 +2,7 @@ import { useCartStore } from '@/app/hooks/use-cart.store';
 import { CartIcon, TagIcon } from '@components/icons';
 import { AspectRatio } from '@ui/aspect-ratio';
 import { Button } from '@ui/button';
-import { Card, CardContent, CardTitle } from '@ui/card';
+import { Card, CardContent, CardFooter, CardTitle } from '@ui/card';
 import { Skeleton } from '@ui/skeleton';
 import { Portrait } from './portrait';
 
@@ -14,12 +14,12 @@ export function ProductCard(item: Product & { withColorways?: boolean }) {
   const addToCart = useCartStore((state) => state.addToCart);
 
   return (
-    <Card className='w-full max-w-sm'>
+    <Card className='w-full sm:max-w-sm'>
       <Portrait item={item} />
       <CardContent className='flex flex-col px-2 py-4 gap-2'>
         <div className='flex flex-col gap-3'>
           <CardTitle>{title}</CardTitle>
-          <span className='text-sm text-muted-foreground'>{subtitle}</span>
+          <span className='text-sm text-muted-foreground min-h-10'>{subtitle}</span>
           <div className='flex items-start justify-between gap-2 text-sm text-muted-foreground'>
             <div className='flex gap-1'>
               <TagIcon className='w-4 h-4' />
@@ -37,6 +37,8 @@ export function ProductCard(item: Product & { withColorways?: boolean }) {
             {currency} ${currentPrice}
           </div>
         </div>
+      </CardContent>
+      <CardFooter>
         <Button
           size='lg'
           className='w-full'
@@ -47,7 +49,7 @@ export function ProductCard(item: Product & { withColorways?: boolean }) {
           <CartIcon className='size-4 mr-3' />
           <span>Add to cart</span>
         </Button>
-      </CardContent>
+      </CardFooter>
     </Card>
   );
 }

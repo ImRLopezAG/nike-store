@@ -25,7 +25,7 @@ export const Portrait: React.FC<Props> = ({ item }) => {
                 <CarouselItem key={index}>
                   <AspectRatio ratio={1 / 1}>
                     <img
-                      className='object-cover w-full h-full rounded-lg'
+                      className='object-cover w-full h-full rounded-lg hover:scale-105 transition-transform duration-300'
                       src={squarishURL}
                       alt={colorDescription}
                     />
@@ -43,7 +43,7 @@ export const Portrait: React.FC<Props> = ({ item }) => {
         <AspectRatio ratio={1 / 1}>
           <img
             loading='lazy'
-            className='object-cover w-full h-full rounded-lg'
+            className='object-cover w-full h-full rounded-lg hover:scale-105 transition-transform duration-300'
             src={images.squarishURL}
             alt={item.title}
           />

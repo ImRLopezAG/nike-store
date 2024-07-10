@@ -18,7 +18,7 @@ export function ProductCart(item: Item) {
 
   return (
     <TableRow>
-      <TableCell className='hidden sm:table-cell'>
+      <TableCell>
         <img
           alt={title}
           className='aspect-square rounded-md object-cover'
@@ -31,7 +31,7 @@ export function ProductCart(item: Item) {
       <TableCell className='hidden md:table-cell'>
         {f(currentPrice)}
       </TableCell>
-      <TableCell className='hidden md:table-cell'>{quantity}</TableCell>
+      <TableCell >{quantity}</TableCell>
       <TableCell>
         <Button size='icon' variant='ghost' onClick={handleAddToCart}>
           <PlusCircle className='h-4 w-4 text-green-500' />

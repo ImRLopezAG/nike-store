@@ -18,7 +18,7 @@ export const Products: React.FC<Props> = ({product, title}) => {
   const { products, isLoading, error } = useProduct();
   return (
     <Wrapper title={title}>
-      <div className='grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6'>
+      <section className='grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-6'>
         {isLoading &&
           Array.from({ length: 10 }).map((_, i) => (
             <ProductCardSkeleton key={i} />
@@ -27,7 +27,7 @@ export const Products: React.FC<Props> = ({product, title}) => {
         {products?.map((product) => (
           <ProductCard key={product.id} {...product} withColorways/>
         ))}
-      </div>
+      </section>
     </Wrapper>
   );
 };
