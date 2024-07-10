@@ -13,8 +13,8 @@ type CartStore = State & {
   removeQuantity: (item: Item) => void;
   payCart: () => void;
   calculateTotals: () => void;
-  handleCustomerInvoice: (customer: CustomerPayment) => void;
-  handleCardInvoice: (card: Card) => void;
+  handleCustomer: (customer: CustomerPayment) => void;
+  handleCard: (card: Card) => void;
 };
 
 const nanoid = customAlphabet('1234567890abcdef', 10);
@@ -53,7 +53,7 @@ const initialState: State = {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
-    }).format(new Date())
+    }).format(new Date()),
   },
 };
 
@@ -156,7 +156,7 @@ export const useCartStore = create(
           };
         });
       },
-      handleCustomerInvoice: (customer: CustomerPayment) => {
+      handleCustomer: (customer: CustomerPayment) => {
         set((state) => ({
           cart: {
             ...state.cart,
@@ -167,7 +167,7 @@ export const useCartStore = create(
           },
         }));
       },
-      handleCardInvoice: (card: Card) => {
+      handleCard: (card: Card) => {
         set((state) => ({
           cart: {
             ...state.cart,

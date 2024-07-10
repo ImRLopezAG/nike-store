@@ -2,18 +2,15 @@ import { cards } from '@services/card';
 import { errors, initCustomer } from '@services/cart';
 import { useCallback, useMemo, useState } from 'react';
 
-export function usePaymentValidations() {
+export function useValidations() {
   const [cardError, setCardError] = useState(errors.card);
   const [customerError, setCustomerError] = useState<CustomerPayment>(
     initCustomer.customer
   );
 
-  const isValid = useMemo(
-    () =>
-      Object.values(cardError).every((value) => value === '') &&
-      Object.values(customerError).every((value) => value === ''),
-    [cardError, customerError]
-  );
+  const isValidCustomer = useMemo(() => Object.values(customerError).every((v) => v === ''), [customerError]);
+  const isValidCard = useMemo(() => Object.values(cardError).every((v) => v === ''), [cardError]);
+  const isValid = isValidCustomer && isValidCard;
   const validateCustomer = useCallback(
     (property: KeyOf<Payment['customer']>, value: string) => {
       const handleCustomerError = (
@@ -110,6 +107,8 @@ export function usePaymentValidations() {
 
   return {
     isValid,
+    isValidCard,
+    isValidCustomer,
     validateCustomer,
     validateCard,
     customerError,
