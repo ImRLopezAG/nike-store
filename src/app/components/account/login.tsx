@@ -8,6 +8,7 @@ import { Label } from '@ui/label';
 import { toast } from '@hooks/use-toast';
 import * as DW from '@ui/drawer-dialog';
 import { useState } from 'react';
+import { useRegister } from '@hooks/use-register'
 
 type LoginProps = Props & {
   message?: string;
@@ -43,8 +44,9 @@ export const LoginForm = () => {
     email: '',
     password: '',
   });
+  const { login } = useRegister();
   return (
-    <form className='grid gap-4'>
+    <form className='grid gap-4' onSubmit={(e) => e.preventDefault()}>
       <div className='grid grid-cols-2 gap-6'>
         <Button variant='outline'>
           <GithubIcon className='mr-2 h-4 w-4' />
@@ -92,6 +94,7 @@ export const LoginForm = () => {
               title: 'Issue reported',
               description: 'We will get back to you as soon as possible.',
             });
+            login(form.email, form.password)
           } else {
             toast({
               title: 'Missing information',

@@ -23,13 +23,15 @@ export function ReportIssue() {
   return (
     <DW.DrawerDialog open={isOpen} setOpen={setIsOpen}>
       <DW.DrawerDialogTrigger>
-        <Button variant='ghost' className='mr-auto px-2'>Report an issue</Button>
+        <Button variant='ghost' className='mr-auto px-2'>
+          Report an issue
+        </Button>
       </DW.DrawerDialogTrigger>
       <DW.DrawerDialogContent>
         <DW.DrawerDialogTitle>Report an issue</DW.DrawerDialogTitle>
-        <p className='text-sm text-muted-foreground'>
+        <DW.DrawerDialogDescription className='text-sm text-muted-foreground'>
           What area are you having problems with?
-        </p>
+        </DW.DrawerDialogDescription>
         <div className='grid gap-6 px-0'>
           <div className='grid grid-cols-2 gap-4'>
             <div className='grid gap-2'>
@@ -70,7 +72,13 @@ export function ReportIssue() {
           </div>
           <div className='grid gap-2'>
             <Label htmlFor='subject'>Subject</Label>
-            <Input id='subject' name='subject' placeholder='I need help with...'  value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
+            <Input
+              id='subject'
+              name='subject'
+              placeholder='I need help with...'
+              value={form.subject}
+              onChange={(e) => setForm({ ...form, subject: e.target.value })}
+            />
           </div>
           <div className='grid gap-2'>
             <Label htmlFor='description'>Description</Label>
@@ -79,7 +87,9 @@ export function ReportIssue() {
               name='description'
               placeholder='Please include all information relevant to your issue.'
               value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, description: e.target.value })
+              }
             />
           </div>
         </div>

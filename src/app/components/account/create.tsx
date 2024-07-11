@@ -24,7 +24,7 @@ export function Register() {
         <span className='text-sm text-muted-foreground'>
           Register a new account
         </span>
-        <section className='flex flex-col gap-1'>
+        <form className='flex flex-col gap-1' onSubmit={(e) => e.preventDefault()}>
           <div className='grid gap-2 grid-cols-2'>
             <InputField
               identifier='name'
@@ -105,8 +105,17 @@ export function Register() {
               type='text'
               placeholder='Zip'
             />
+            <InputField
+              identifier='password'
+              value={customer.password || ''}
+              handleChange={handleCustomer}
+              handleBlur={handleBlur}
+              errors={customerError.password || ''}
+              type='password'
+              placeholder='Password'
+            />
           </div>
-        </section>
+        </form>
         <DW.DrawerDialogFooter className='px-0'>
           <Button
             className='w-full'
