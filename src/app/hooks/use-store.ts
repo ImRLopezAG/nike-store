@@ -29,7 +29,7 @@ const initialState: State = {
         address: '',
         city: '',
         state: '',
-        zip: '',
+        zip: Math.floor(Math.random() * 100000).toString(),
         country: '',
         phone: '',
       },

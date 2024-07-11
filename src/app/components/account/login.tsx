@@ -1,4 +1,5 @@
 import { GithubIcon, GoogleIcon } from '@components/icons';
+import { Register } from './create'
 import { Button } from '@ui/button';
 
 import { Input } from '@ui/input';
@@ -8,14 +9,18 @@ import { toast } from '@hooks/use-toast';
 import * as DW from '@ui/drawer-dialog';
 import { useState } from 'react';
 
-export function Login() {
+type LoginProps = Props & {
+  message?: string;
+};
+
+export const Login: React.FC<LoginProps> = ({ message = 'To Pay your order Please Login' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleIsOpen = () => setIsOpen(!isOpen);
 
   return (
     <DW.DrawerDialog open={isOpen} setOpen={setIsOpen}>
       <DW.DrawerDialogTrigger>
-        <Button className='mr-auto px-2'>To Pay your order Please Login</Button>
+        <Button className='px-2 w-full flex-1 justify-start' variant='ghost'>{message}</Button>
       </DW.DrawerDialogTrigger>
       <DW.DrawerDialogContent>
         <DW.DrawerDialogTitle>Login</DW.DrawerDialogTitle>
@@ -39,7 +44,7 @@ export const LoginForm = () => {
     password: '',
   });
   return (
-    <section className='grid gap-4'>
+    <form className='grid gap-4'>
       <div className='grid grid-cols-2 gap-6'>
         <Button variant='outline'>
           <GithubIcon className='mr-2 h-4 w-4' />
@@ -98,6 +103,10 @@ export const LoginForm = () => {
       >
         Submit
       </Button>
-    </section>
+      <div className='text-sm text-center text-muted-foreground'>
+        don't have an account?
+        <Register />
+      </div>
+    </form>
   );
 };

@@ -17,7 +17,7 @@ export function Register() {
   return (
     <DW.DrawerDialog open={isOpen} setOpen={handleIsOpen}>
       <DW.DrawerDialogTrigger>
-        <Button>Create Account</Button>
+        <Button variant='link'>Create Account</Button>
       </DW.DrawerDialogTrigger>
       <DW.DrawerDialogContent>
         <DW.DrawerDialogTitle>Create Account</DW.DrawerDialogTitle>
