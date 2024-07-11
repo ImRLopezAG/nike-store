@@ -25,6 +25,7 @@ export const CustomerPaymentSchema = z.object({
   zip: z.string(),
   country: z.string(),
   phone: z.string(),
+  password: z.string().nullable(),
 });
 
 export const PaymentSchema = z.object({

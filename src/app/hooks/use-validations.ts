@@ -61,6 +61,9 @@ export function useValidations() {
             valid && validPhone
           );
         },
+        password: () => {
+          handleCustomerError('password', 'Password is required', valid);
+        },
       };
       validations[property]();
     },

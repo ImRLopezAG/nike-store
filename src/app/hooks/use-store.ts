@@ -4,6 +4,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 interface State {
   cart: Cart;
+  users: CustomerPayment[]
 }
 
 type CartStore = State & {
@@ -15,6 +16,9 @@ type CartStore = State & {
   calculateTotals: () => void;
   handleCustomer: (customer: CustomerPayment) => void;
   handleCard: (card: Card) => void;
+  registerUser: (user: CustomerPayment) => void;
+  loginUser: (user: Pick<CustomerPayment, 'email' | 'password'>) => string;
+  logoutUser: () => void;
 };
 
 const nanoid = customAlphabet('1234567890abcdef', 10);
@@ -32,6 +36,7 @@ const initialState: State = {
         zip: Math.floor(Math.random() * 100000).toString(),
         country: '',
         phone: '',
+        password: '',
       },
       card: {
         number: '',
@@ -55,12 +60,14 @@ const initialState: State = {
       day: 'numeric',
     }).format(new Date()),
   },
+  users: []
 };
 
 export const useStore = create(
   persist<CartStore>(
     (set, get) => ({
       cart: initialState.cart,
+      users: initialState.users,
       addToCart: (item: Item) => {
         set((state) => {
           const product = state.cart.lines.find(
@@ -186,6 +193,34 @@ export const useStore = create(
           cart: initialState.cart,
         }));
       },
+      registerUser: (user: CustomerPayment) => {
+        set((state) => ({
+          users: [...state.users, user],
+        }));
+      },
+      loginUser: (cred: Pick<CustomerPayment, 'email' | 'password'>) => {
+        const user = get().users.find(
+          (user) =>
+            user.email === cred.email && user.password === cred.password
+        );
+        if (user) {
+          get().handleCustomer(user);
+          console.log(`Welcome back ${user.name}`);
+          return  user.name;
+        }
+        return '';
+      },
+      logoutUser: () => {
+        set(() => ({
+          cart: {
+            ...initialState.cart,
+            payment: {
+              ...initialState.cart.payment,
+              customer: initialState.cart.payment.customer,
+            },
+          },
+        }));
+      }
     }),
     {
       name: 'cart-storage',

@@ -5,7 +5,7 @@ import { useValidations } from './use-validations';
 
 export function useRegister() {
   const [isOpen, setIsOpen] = useState(false);
-  const { handleCustomer } = useStore();
+  const { loginUser, registerUser } = useStore();
   const customerStore = useStore((store) => store.cart.payment.customer);
   const [customer, setCustomer] = useState<CustomerPayment>(customerStore);
   const { customerError, validateCustomer, isValidCustomer } = useValidations();
@@ -33,16 +33,33 @@ export function useRegister() {
 
   const register = useCallback(() => {
     if (!isValidCustomer) {
-      const errors = Object.values(customerError).filter((v) => v !== '');
+      const errors = Object.values(customerError).filter((v) => v !== '')     
       toast({
         title: 'Registration failed',
         description: `Fix the following errors: \n${errors.join('\n')}`,
       });
       return;
     }
-    handleCustomer({ ...customer });
+    
+    registerUser({ ...customer });
     setIsOpen(false);
-  }, [customerError, customer, handleCustomer, isValidCustomer]);
+  }, [customerError, customer, isValidCustomer, registerUser]);
+
+  const login = useCallback((email: string, password: string) => {
+    const user  = loginUser({ email, password });
+    if (user !== '') {
+      toast({
+        title: 'Login successful',
+        description: `Welcome back ${user}`,
+      });
+    } else {
+      toast({
+        title: 'Login failed',
+        description: 'Invalid email or password',
+      });
+    }
+    setIsOpen(false);
+  }, [loginUser]);
 
   return {
     isOpen,
@@ -52,5 +69,6 @@ export function useRegister() {
     handleBlur,
     handleIsOpen,
     register,
+    login
   };
 }
