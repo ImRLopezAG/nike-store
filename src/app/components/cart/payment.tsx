@@ -32,9 +32,9 @@ export function PaymentMethod() {
       </DW.DrawerDialogTrigger>
       <DW.DrawerDialogContent>
         <DW.DrawerDialogTitle>Payment Method</DW.DrawerDialogTitle>
-        <span className='text-sm text-muted-foreground'>
+        <DW.DrawerDialogDescription className='text-sm text-muted-foreground'>
           Add a new payment method to your account.
-        </span>
+        </DW.DrawerDialogDescription>
         <section className='flex flex-col gap-4'>
           <PaymentMethodRadio generateHolders={generateHolders} />
           <InputField

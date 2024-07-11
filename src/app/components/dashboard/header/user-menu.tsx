@@ -13,6 +13,7 @@ import { CircleUser } from 'lucide-react';
 
 export const UserMenu: React.FC<Props> = () => {
   const { name } = useStore((state) => state.cart.payment.customer);
+  const { logoutUser } = useStore((state) => state);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -32,7 +33,11 @@ export const UserMenu: React.FC<Props> = () => {
         <DropdownMenuItem asChild>
           <>
             {!name && <Login message='Login' />}
-            {name && <Login message='Logout' />}
+            {name && (
+              <Button variant='link' onClick={logoutUser}>
+                Logout
+              </Button>
+            )}
           </>
         </DropdownMenuItem>
       </DropdownMenuContent>
