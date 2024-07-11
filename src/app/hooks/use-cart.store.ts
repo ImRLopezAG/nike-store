@@ -57,7 +57,7 @@ const initialState: State = {
   },
 };
 
-export const useCartStore = create(
+export const useStore = create(
   persist<CartStore>(
     (set, get) => ({
       cart: initialState.cart,

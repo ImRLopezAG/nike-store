@@ -1,4 +1,7 @@
-import { useCartStore } from '@hooks/use-cart.store';
+import { Login } from '@components/account';
+import { PaymentMethod } from '@components/cart';
+import { CustomerInfo, PreviewOrder } from '@components/cart/components';
+import { useStore } from '@hooks/use-cart.store';
 import { cartService } from '@services/cart';
 import { Button } from '@ui/button';
 import {
@@ -9,12 +12,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@ui/card';
-import {CustomerInfo, PreviewOrder} from '@components/cart/components'
-import { Copy} from 'lucide-react';
-import { PaymentMethod } from '@components/cart'
-import { Login } from '@components/account'
+import { Copy } from 'lucide-react';
 export const OrderDetails: React.FC<Props> = () => {
-  const { cart } = useCartStore((state) => state);
+  const { cart } = useStore((state) => state);
   const { f } = cartService();
   const { subtotal, totalVAT, total, shipping } = cart.totals;
   const { name } = cart.payment.customer;
@@ -52,9 +52,7 @@ export const OrderDetails: React.FC<Props> = () => {
       </CardContent>
       <CardFooter className='flex flex-row items-center border-t bg-muted/50 px-6 py-3'>
         {name && <PaymentMethod />}
-        {!name && (
-          <Login />
-        )}
+        {!name && <Login />}
       </CardFooter>
     </Card>
   );

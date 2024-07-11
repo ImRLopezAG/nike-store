@@ -1,8 +1,8 @@
+import { useStore } from '@hooks/use-cart.store';
 import { useEffect, useState } from 'react';
-import { useCartStore } from '@hooks/use-cart.store';
 
 export function useCart(item: Item) {
-  const { removeFromCart, cart, addQuantity, removeQuantity } = useCartStore();
+  const { removeFromCart, cart, addQuantity, removeQuantity } = useStore();
   const { lines } = cart;
   const [quantity, setQuantity] = useState(1);
   const { title, price, productType, subtitle, images } = item;

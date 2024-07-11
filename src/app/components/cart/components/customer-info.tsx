@@ -1,4 +1,4 @@
-import { useCartStore } from '@/app/hooks/use-cart.store';
+import { useStore } from '@/app/hooks/use-cart.store';
 import {
   AmericanExpressIcon,
   DiscoverIcon,
@@ -8,7 +8,7 @@ import {
 import { Separator } from '@ui/separator';
 
 export const CustomerInfo = () => {
-  const { card, customer } = useCartStore((state) => state.cart.payment);
+  const { card, customer } = useStore((state) => state.cart.payment);
   return (
     <>
       <Separator className='my-4' />
@@ -58,12 +58,14 @@ export const CustomerInfo = () => {
           <div className='flex items-center justify-between'>
             <dt className='flex items-center gap-1 text-muted-foreground'>
               <div className='flex items-center'>
-                {{
+                {
+                  {
                     MasterCard: <MasterCardIcon />,
                     Visa: <VisaIcon />,
                     Discover: <DiscoverIcon />,
                     'American Express': <AmericanExpressIcon />,
-                  }[card.holder]}
+                  }[card.holder]
+                }
               </div>
               <span>{card.holder}</span>
             </dt>

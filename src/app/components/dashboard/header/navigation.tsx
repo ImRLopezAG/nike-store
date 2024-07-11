@@ -1,10 +1,10 @@
-import { useCartStore } from '@hooks/use-cart.store';
+import { useStore } from '@hooks/use-cart.store';
 import { cn } from '@shared/utils';
 import { Link } from '@tanstack/react-router';
 import { Badge } from '@ui/badge';
 import { Package2 } from 'lucide-react';
 export const Navigation: React.FC<Props> = ({ className }) => {
-  const total = useCartStore((state) => state.cart.totals.products);
+  const total = useStore((state) => state.cart.totals.products);
 
   return (
     <nav className={cn('gap-6 font-medium text-lg', className)}>

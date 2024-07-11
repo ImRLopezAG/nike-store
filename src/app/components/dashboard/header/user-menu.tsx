@@ -1,3 +1,5 @@
+import { Login, ReportIssue } from '@components/account';
+import { useStore } from '@hooks/use-cart.store';
 import { Button } from '@ui/button';
 import {
   DropdownMenu,
@@ -8,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from '@ui/dropdown-menu';
 import { CircleUser } from 'lucide-react';
-import { ReportIssue } from '@components/account'
 
 export const UserMenu: React.FC<Props> = () => {
   return (

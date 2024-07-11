@@ -1,4 +1,4 @@
-import { useCartStore } from '@/app/hooks/use-cart.store';
+import { useStore } from '@/app/hooks/use-cart.store';
 import { CartIcon, TagIcon } from '@components/icons';
 import { AspectRatio } from '@ui/aspect-ratio';
 import { Button } from '@ui/button';
@@ -11,7 +11,7 @@ export function ProductCard(item: Product & { withColorways?: boolean }) {
     item;
   const { currentPrice, currency } = price;
 
-  const addToCart = useCartStore((state) => state.addToCart);
+  const addToCart = useStore((state) => state.addToCart);
 
   return (
     <Card className='w-full sm:max-w-sm'>
@@ -19,7 +19,9 @@ export function ProductCard(item: Product & { withColorways?: boolean }) {
       <CardContent className='flex flex-col px-2 py-4 gap-2'>
         <div className='flex flex-col gap-3'>
           <CardTitle>{title}</CardTitle>
-          <span className='text-sm text-muted-foreground min-h-10'>{subtitle}</span>
+          <span className='text-sm text-muted-foreground min-h-10'>
+            {subtitle}
+          </span>
           <div className='flex items-start justify-between gap-2 text-sm text-muted-foreground'>
             <div className='flex gap-1'>
               <TagIcon className='w-4 h-4' />

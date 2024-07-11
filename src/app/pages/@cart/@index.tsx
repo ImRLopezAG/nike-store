@@ -1,6 +1,7 @@
 import { OrderDetails } from '@components/cart';
+import { ProductCart } from '@components/product';
+import { useStore } from '@hooks/use-cart.store';
 import { createFileRoute } from '@tanstack/react-router';
-import { useCartStore } from '@hooks/use-cart.store';
 import {
   Card,
   CardContent,
@@ -10,17 +11,13 @@ import {
   CardTitle,
 } from '@ui/card';
 import { ScrollArea, ScrollBar } from '@ui/scroll-area';
-import {
-  Table,
-  TableBody,
-} from '@ui/table';
-import { ProductCart } from '@components/product'
+import { Table, TableBody } from '@ui/table';
 export const Route = createFileRoute('/cart/')({
   component: () => <Cart />,
 });
 
 function Cart() {
-  const { cart } = useCartStore();
+  const { cart } = useStore();
   const { lines } = cart;
   return (
     <main className='gap-4 p-4 sm:px-6 sm:py-0 grid flex-1 items-start md:gap-8 lg:grid-cols-3 xl:grid-cols-3'>
@@ -37,10 +34,7 @@ function Cart() {
               <Table>
                 <TableBody className='overflow-auto'>
                   {lines.map((product) => (
-                    <ProductCart
-                      key={product.id}
-                      {...product}
-                      />
+                    <ProductCart key={product.id} {...product} />
                   ))}
                 </TableBody>
               </Table>

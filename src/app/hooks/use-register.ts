@@ -1,12 +1,12 @@
-import { useCartStore } from '@hooks/use-cart.store';
+import { useStore } from '@hooks/use-cart.store';
 import { toast } from '@hooks/use-toast';
 import { useCallback, useState } from 'react';
 import { useValidations } from './use-validations';
 
 export function useRegister() {
   const [isOpen, setIsOpen] = useState(false);
-  const { handleCustomer } = useCartStore();
-  const customerStore = useCartStore((store) => store.cart.payment.customer);
+  const { handleCustomer } = useStore();
+  const customerStore = useStore((store) => store.cart.payment.customer);
   const [customer, setCustomer] = useState<CustomerPayment>(customerStore);
   const { customerError, validateCustomer, isValidCustomer } = useValidations();
 

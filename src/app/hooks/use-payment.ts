@@ -1,5 +1,5 @@
 import { generateHolder } from '@/services';
-import { useCartStore } from '@hooks/use-cart.store';
+import { useStore } from '@hooks/use-cart.store';
 import { toast } from '@hooks/use-toast';
 import { generateInvoice } from '@services/pdf';
 import { useCallback, useState } from 'react';
@@ -7,8 +7,8 @@ import { useValidations } from './use-validations';
 
 export function usePayment() {
   const [isOpen, setIsOpen] = useState(false);
-  const { payCart, cart, handleCard } = useCartStore();
-  const cardStore = useCartStore((store) => store.cart.payment.card);
+  const { payCart, cart, handleCard } = useStore();
+  const cardStore = useStore((store) => store.cart.payment.card);
   const [card, setCard] = useState<Card>(cardStore);
   const { cardError, validateCard, isValidCard } = useValidations();
 
