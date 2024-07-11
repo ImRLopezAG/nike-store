@@ -1,4 +1,4 @@
-import { useStore } from '@/app/hooks/use-cart.store';
+import { useStore } from '@/app/hooks/use-store';
 import { CartIcon, TagIcon } from '@components/icons';
 import { AspectRatio } from '@ui/aspect-ratio';
 import { Button } from '@ui/button';

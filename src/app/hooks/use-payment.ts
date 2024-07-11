@@ -1,5 +1,5 @@
 import { generateHolder } from '@/services';
-import { useStore } from '@hooks/use-cart.store';
+import { useStore } from '@hooks/use-store';
 import { toast } from '@hooks/use-toast';
 import { generateInvoice } from '@services/pdf';
 import { useCallback, useState } from 'react';

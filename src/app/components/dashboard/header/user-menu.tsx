@@ -1,5 +1,5 @@
 import { Login, ReportIssue } from '@components/account';
-import { useStore } from '@hooks/use-cart.store';
+import { useStore } from '@hooks/use-store';
 import { Button } from '@ui/button';
 import {
   DropdownMenu,

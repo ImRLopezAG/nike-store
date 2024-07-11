@@ -1,4 +1,4 @@
-import { useStore } from '@hooks/use-cart.store';
+import { useStore } from '@hooks/use-store';
 import { cn } from '@shared/utils';
 import { Link } from '@tanstack/react-router';
 import { Badge } from '@ui/badge';

@@ -1,4 +1,4 @@
-import { useStore } from '@hooks/use-cart.store';
+import { useStore } from '@hooks/use-store';
 import { useEffect, useState } from 'react';
 
 export function useCart(item: Item) {

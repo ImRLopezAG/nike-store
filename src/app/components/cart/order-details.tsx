@@ -1,7 +1,7 @@
 import { Login } from '@components/account';
 import { PaymentMethod } from '@components/cart';
 import { CustomerInfo, PreviewOrder } from '@components/cart/components';
-import { useStore } from '@hooks/use-cart.store';
+import { useStore } from '@hooks/use-store';
 import { cartService } from '@services/cart';
 import { Button } from '@ui/button';
 import {

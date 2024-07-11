@@ -1,4 +1,4 @@
-import { useStore } from '@hooks/use-cart.store';
+import { useStore } from '@hooks/use-store';
 import { generateInvoice } from '@services/pdf';
 import { Button } from '@ui/button';
 import { FileText } from 'lucide-react';

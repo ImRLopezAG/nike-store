@@ -1,6 +1,6 @@
 import { OrderDetails } from '@components/cart';
 import { ProductCart } from '@components/product';
-import { useStore } from '@hooks/use-cart.store';
+import { useStore } from '@hooks/use-store';
 import { createFileRoute } from '@tanstack/react-router';
 import {
   Card,

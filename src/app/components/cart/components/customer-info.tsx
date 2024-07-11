@@ -1,4 +1,4 @@
-import { useStore } from '@/app/hooks/use-cart.store';
+import { useStore } from '@/app/hooks/use-store';
 import {
   AmericanExpressIcon,
   DiscoverIcon,

@@ -1,4 +1,4 @@
-import { useStore } from '@hooks/use-cart.store';
+import { useStore } from '@hooks/use-store';
 import { toast } from '@hooks/use-toast';
 import { useCallback, useState } from 'react';
 import { useValidations } from './use-validations';
