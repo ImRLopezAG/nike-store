@@ -38,17 +38,35 @@ const invoice = (cart: Cart): TDocumentDefinitions => {
             lines.length > 0 ? ['Totals', '', '', f(totalVAT), f(subtotal), f(total)] : Array(6).fill(''),
           ],
         },
+      },
+      {
+        text: `Shipping: ${f(shipping)}`,
+        margin: [0, 0, 0, 10],
+      },
+      {
+        text: `Total: ${f(total + shipping)}`,
+        margin: [0, 0, 0, 10],
+      },
+      {
+        text: 'Thank you for your purchase!',
+        margin: [0, 0, 0, 10],
+      },
+      {
+        text: 'Please pay within 30 days.',
+        margin: [0, 0, 0, 10],
+      },
+      {
+        text: 'For any inquiries, please contact us at:',
+        margin: [0, 0, 0, 10],
       }
     ],
-    styles,
-    images: {
-      logo: `${getBaseURL()}public/logo.png`,
-    }
+    styles
   };
 };
 
 
 export const generateInvoice = (cart: Cart) => createPdf(invoice(cart)).open();
+
 const getBaseURL = () => {
   const { protocol, hostname, port } = window.location;
   return `${protocol}//${hostname}${port ? `:${port}` : ''}/`;

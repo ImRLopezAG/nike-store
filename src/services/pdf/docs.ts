@@ -10,9 +10,16 @@ export const header = (): Content => ({
   margin: 10,
   columns: [
     {
-      image: 'logo',
-      width: 100,
-      height: 100,
+      text: 'Invoice',
+      style: 'header',
+    },
+    {
+      text: 'Date: ' + new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }).format(new Date()),
+      alignment: 'right',
     },
   ],
 });
