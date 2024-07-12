@@ -190,7 +190,13 @@ export const useStore = create(
       },
       payCart: () => {
         set(() => ({
-          cart: initialState.cart,
+          cart: {
+            ...initialState.cart,
+            payment: {
+              ...initialState.cart.payment,
+              customer: get().cart.payment.customer,
+            },
+          },
         }));
       },
       registerUser: (user: CustomerPayment) => {
