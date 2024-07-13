@@ -43,10 +43,10 @@ export const Landing = () => {
               width='550'
               height='400'
               alt='Hero'
-              className='mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last z-20'
+              className='mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last z-0'
             />
-            <div className='absolute inset-0 bg-white bg-opacity-10 rounded-xl shadow-2xl backdrop-blur-3xl z-10'>
-              <h2 className='absolute top-0 left-1 text-9xl text-white opacity-10 font-bold z-0 -rotate-[20deg] w-fit tracking-tight'>
+            <div className='absolute inset-0 bg-white bg-opacity-10 rounded-xl shadow-2xl backdrop-blur-3xl'>
+              <h2 className='absolute top-0 left-1 text-7xl text-white opacity-10 font-bold -rotate-[20deg] w-fit tracking-tight md:text-9xl'>
                 Just Do It.
               </h2>
             </div>
