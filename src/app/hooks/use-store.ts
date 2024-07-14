@@ -134,32 +134,30 @@ export const useStore = create(
             getProductTotal,
             round2Decimals,
           } = cartService();
-          const subtotal = state.cart.lines.reduce((acc, product) => {
-            return round2Decimals(acc + getProductTotalExcludingVAT(product));
-          }, 0);
-          const totalVAT = state.cart.lines.reduce((acc, product) => {
-            return round2Decimals(
-              acc + getProductVAT(product) * product.quantity
-            );
-          }, 0);
-          const total = state.cart.lines.reduce((acc, product) => {
-            return round2Decimals(acc + getProductTotal(product));
-          }, 0);
+          const totals = state.cart.lines.reduce(
+            (acc, product) => {
+              const subtotal = round2Decimals(acc.subtotal + getProductTotalExcludingVAT(product))
+              const totalVAT = round2Decimals(acc.totalVAT + getProductVAT(product) * product.quantity)
+              const total = round2Decimals(acc.total + getProductTotal(product))
+              const totalExcludingVAT = getProductTotalExcludingVAT(product)
+              return {
+                products: round2Decimals(acc.products + product.quantity),
+                subtotal,
+                totalVAT,
+                total,
+                totalExcludingVAT,
+              }
+            },
+            { products: 0, subtotal: 0, totalVAT: 0, total: 0 }
+          )
 
-          const products = state.cart.lines.reduce((acc, product) => {
-            return round2Decimals(acc + product.quantity);
-          }, 0);
-
-          const shipping = round2Decimals(total * 0.08);
+          const shipping = round2Decimals(totals.total * 0.08);
 
           return {
             cart: {
               ...state.cart,
               totals: {
-                products: products,
-                subtotal,
-                totalVAT,
-                total,
+                ...totals,
                 shipping,
               },
             },

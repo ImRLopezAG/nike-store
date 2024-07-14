@@ -38,6 +38,7 @@ export const initCustomer: Payment = {
     country: '',
     zip: '',
     phone: '',
+    password: '',
   },
   card: {
     number: '',

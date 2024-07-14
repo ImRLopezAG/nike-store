@@ -9,7 +9,7 @@ export const Landing = () => {
           <div className='flex flex-col justify-center space-y-4'>
             <div className='space-y-2'>
               <h1 className='text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-white'>
-                Unlock Global Commerce for Your Business
+                Unlock Global Commerce <span className='animate-flip-down'>for your business</span>
               </h1>
               <p className='text-white text-2xl'>
                 Our e-commerce app enables purchases in countries where major
